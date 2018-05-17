@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Weather</string>
     <string name="weather_app">Weather app</string>
+    <string name="lab_text_select_city">Select city</string>
+    <string name="btn_result">Result</string>
+    <string name="textview_result"></string>
 </resources>

@@ -2,4 +2,7 @@
 <resources>
     <string name="app_name">Погода</string>
     <string name="weather_app">Погодное приложение</string>
+    <string name="lab_text_select_city">Выбор города</string>
+    <string name="btn_result">Показать</string>
+    <string name="textview_result"></string>
 </resources>
