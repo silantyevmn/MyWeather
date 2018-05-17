@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="@string/lab_text_select_city"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="45sp" />
+        android:textSize="@dimen/text_size_header" />
 
     <Spinner
         android:id="@+id/spinner_for_city"
@@ -31,6 +31,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/textview_result"
-        android:textSize="25sp" />
+        android:textSize="@dimen/text_size_temperature" />
 
 </LinearLayout>
