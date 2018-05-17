@@ -1,18 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="silantyevmn.ru.weather.MainActivity">
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
     <TextView
+        android:id="@+id/textview_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/weather_app"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/lab_text_select_city"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/text_size_header" />
 
-</android.support.constraint.ConstraintLayout>
+    <Spinner
+        android:id="@+id/spinner_for_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/city_selection" />
+
+    <Button
+        android:id="@+id/button_show_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_result"
+        android:textColor="@android:color/holo_green_dark" />
+
+    <TextView
+        android:id="@+id/textview_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/textview_result"
+        android:textSize="@dimen/text_size_temperature" />
+
+</LinearLayout>
