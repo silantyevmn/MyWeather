@@ -1,2 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <dimen name="text_size_header">"35sp"</dimen>
+    <dimen name="text_size_temperature">"25sp"</dimen>
+</resources>
