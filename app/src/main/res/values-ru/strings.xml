@@ -5,4 +5,5 @@
     <string name="lab_text_select_city">Выбор города</string>
     <string name="btn_result">Показать</string>
     <string name="textview_result"></string>
+    <string name="edit_text_enter_the_city">Введите город</string>
 </resources>
