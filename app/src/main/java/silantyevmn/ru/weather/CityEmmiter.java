@@ -29,4 +29,13 @@ public class CityEmmiter {
     private static int getRandomMinMax(int min,int max){
         return (int)(Math.random()*(max-min))+min;
     }
+
+    public static int getPositionFindCity(String value){
+        for (int i = 0; i < cities.size(); i++) {
+            if(cities.get(i).getName().toUpperCase().equals(value.toUpperCase())){
+                return i;
+            }
+        }
+        return -1;
+    }
 }
