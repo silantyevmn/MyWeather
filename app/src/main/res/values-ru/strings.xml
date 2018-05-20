@@ -6,4 +6,8 @@
     <string name="btn_result">Показать</string>
     <string name="textview_result"></string>
     <string name="edit_text_enter_the_city">Введите город</string>
+    <string name="text_label_city">Город</string>
+    <string name="text_label_temperature">Температура</string>
+    <string name="text_label_pressure">Давление</string>
+    <string name="text_label_wind">Ветер</string>
 </resources>
