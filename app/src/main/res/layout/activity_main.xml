@@ -31,6 +31,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/textview_result"
-        android:textSize="@dimen/text_size_temperature" />
+        android:textSize="@dimen/text_size_normal" />
 
 </LinearLayout>
