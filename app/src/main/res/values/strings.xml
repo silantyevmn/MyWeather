@@ -5,4 +5,8 @@
     <string name="btn_result">Result</string>
     <string name="textview_result"></string>
     <string name="edit_text_enter_the_city">Enter the city</string>
+    <string name="text_label_city">City</string>
+    <string name="text_label_temperature">Temperature</string>
+    <string name="text_label_pressure">Pressure</string>
+    <string name="text_label_wind">Wind</string>
 </resources>
