@@ -5,13 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView textViewDescription;
-    private Spinner spinner;
+    private EditText editTextCity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +25,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Объявляем и находим ресурсы
         Button button = findViewById(R.id.button_show_description);
         textViewDescription = findViewById(R.id.textview_description);
-        spinner = findViewById(R.id.spinner_for_city);
+        editTextCity = findViewById(R.id.edit_text_city);
+        editTextCity.requestFocus();
         // Устанавливаем слушатель нажатий
         button.setOnClickListener(this);
     }
@@ -32,7 +34,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.button_show_description) {
-            int position = spinner.getSelectedItemPosition();
+
+            int position = CityEmmiter.getPositionFindCity(editTextCity.getText().toString());
+            if(position==-1){
+                textViewDescription.setText("Город не найден");
+                return;
+            }
             String temperature = CityEmmiter.getCities().get(position).getTemperature();
             textViewDescription.setText(temperature);
         }
