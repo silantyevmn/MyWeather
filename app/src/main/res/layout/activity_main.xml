@@ -12,12 +12,15 @@
         android:text="@string/lab_text_select_city"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/text_size_header" />
-
-    <Spinner
-        android:id="@+id/spinner_for_city"
+    <EditText
+        android:id="@+id/edit_text_city"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:entries="@array/city_selection" />
+        android:layout_height="wrap_content" />
+    <!--<Spinner-->
+        <!--android:id="@+id/spinner_for_city"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:entries="@array/city_selection" />-->
 
     <Button
         android:id="@+id/button_show_description"
