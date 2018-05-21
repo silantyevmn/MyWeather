@@ -33,4 +33,19 @@
         android:text="@string/textview_result"
         android:textSize="@dimen/text_size_normal" />
 
+    <Switch
+        android:id="@+id/switch_humidity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/switch_text_show_humidity" />
+    <Switch
+        android:id="@+id/switch_pressure"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/switch_text_show_pressure" />
+    <Switch
+        android:id="@+id/switch_wind"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/switch_text_show_wind" />
 </LinearLayout>
