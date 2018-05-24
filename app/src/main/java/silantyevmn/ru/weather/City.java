@@ -9,22 +9,40 @@ import java.util.Locale;
 public class City {
     private String name;
     private int temperature;
+    private int humidity; //влажность
+    private int pressure; //давление
+    private int wind; //скорость ветра
 
-    public City(String name, int temperature) {
+    public City(String name, int temperature, int humidity, int pressure, int wind) {
         this.name = name;
         this.temperature = temperature;
+        this.humidity = humidity;
+        this.pressure = pressure;
+        this.wind = wind;
     }
 
     public String getName() {
         return name;
     }
 
-    public String getTemperature() {
-        return temperature>0?"+"+temperature:"-"+temperature;
+    public String getTemperature(String prefix) {
+        return temperature > 0 ? "+" + temperature + prefix : "-" + temperature + prefix;
+    }
+
+    public String getHumidity(String prefix) {
+        return humidity + prefix;
+    }
+
+    public String getPressure(String prefix) {
+        return pressure + prefix;
+    }
+
+    public String getWind(String prefix) {
+        return wind + prefix;
     }
 
     @Override
     public String toString() {
-        return String.format(Locale.getDefault(),"%s %s",name,temperature);
+        return String.format(Locale.getDefault(), "%s %s", name, temperature);
     }
 }

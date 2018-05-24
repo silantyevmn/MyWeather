@@ -5,4 +5,18 @@
     <string name="lab_text_select_city">Выбор города</string>
     <string name="btn_result">Показать</string>
     <string name="textview_result"></string>
+    <string name="edit_text_enter_the_city">Введите город</string>
+    <string name="text_label_city">Город</string>
+    <string name="text_label_temperature">Температура</string>
+    <string name="text_label_humidity">Влажность</string>
+    <string name="text_label_pressure">Давление</string>
+    <string name="text_label_wind">Ветер</string>
+    <string name="text_prefix_humidity">%</string>
+    <string name="text_prefix_pressure">мм р.с</string>
+    <string name="text_prefix_wind">м/с</string>
+    <string name="text_prefix_temperature">C</string>
+    <string name="text_city_not_found">Город не найден</string>
+    <string name="switch_text_show_humidity">Показать влажность</string>
+    <string name="switch_text_show_pressure">Показать давление</string>
+    <string name="switch_text_show_wind">Показать ветер</string>
 </resources>

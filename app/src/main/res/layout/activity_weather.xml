@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="left"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/text_view_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_label_city"
+        android:textSize="@dimen/text_size_normal" />
+
+    <TextView
+        android:id="@+id/text_view_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text_label_temperature"
+        android:textSize="@dimen/text_size_normal" />
+    <TextView
+        android:id="@+id/text_view_humidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="@string/text_label_humidity"
+        android:textSize="@dimen/text_size_normal" />
+    <TextView
+        android:id="@+id/text_view_pressure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="@string/text_label_pressure"
+        android:textSize="@dimen/text_size_normal" />
+
+    <TextView
+        android:id="@+id/text_view_wind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="@string/text_label_wind"
+        android:textSize="@dimen/text_size_normal" />
+</LinearLayout>

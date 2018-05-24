@@ -12,12 +12,12 @@
         android:text="@string/lab_text_select_city"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="@dimen/text_size_header" />
-
-    <Spinner
-        android:id="@+id/spinner_for_city"
+    <EditText
+        android:id="@+id/edit_text_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:entries="@array/city_selection" />
+        android:hint="@string/edit_text_enter_the_city"
+        android:inputType="text"/>
 
     <Button
         android:id="@+id/button_show_description"
@@ -31,6 +31,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/textview_result"
-        android:textSize="@dimen/text_size_temperature" />
+        android:textSize="@dimen/text_size_normal" />
 
+    <Switch
+        android:id="@+id/switch_humidity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/switch_text_show_humidity" />
+    <Switch
+        android:id="@+id/switch_pressure"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/switch_text_show_pressure" />
+    <Switch
+        android:id="@+id/switch_wind"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/switch_text_show_wind" />
 </LinearLayout>
