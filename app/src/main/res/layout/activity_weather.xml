@@ -3,41 +3,89 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="left"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:theme="@style/normal">
 
     <TextView
         android:id="@+id/text_view_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/text_label_city"
-        android:textSize="@dimen/text_size_normal" />
+        android:layout_gravity="center"
+        android:text="@string/text_label_city" />
 
-    <TextView
-        android:id="@+id/text_view_temperature"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layout_temperature"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/text_label_temperature"
-        android:textSize="@dimen/text_size_normal" />
-    <TextView
-        android:id="@+id/text_view_humidity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:text="@string/text_label_humidity"
-        android:textSize="@dimen/text_size_normal" />
-    <TextView
-        android:id="@+id/text_view_pressure"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:text="@string/text_label_pressure"
-        android:textSize="@dimen/text_size_normal" />
+        android:theme="@style/normal"
+        android:visibility="gone">
 
-    <TextView
-        android:id="@+id/text_view_wind"
-        android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/image_view_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/image_temperature" />
+
+        <TextView
+            android:id="@+id/text_view_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_humidity"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:text="@string/text_label_wind"
-        android:textSize="@dimen/text_size_normal" />
+        android:theme="@style/normal"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/image_view_humidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/image_humidity" />
+
+        <TextView
+            android:id="@+id/text_view_humidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_pressure"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/normal"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/image_view_pressure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/image_pressure" />
+
+        <TextView
+            android:id="@+id/text_view_pressure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_wind"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/normal"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/image_view_wind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/image_wind" />
+
+        <TextView
+            android:id="@+id/text_view_wind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </LinearLayout>
