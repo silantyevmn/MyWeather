@@ -19,5 +19,9 @@
     <style name="button">
         <item name="android:textColor">@color/colorGreen</item>
     </style>
+    <style name="imageSize25">
+        <item name="android:layout_width">@dimen/image_min_layout_size</item>
+        <item name="android:layout_height">@dimen/image_min_layout_size</item>
+    </style>
 
 </resources>
