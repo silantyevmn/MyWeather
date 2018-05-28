@@ -1,52 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textview_label"
-        style="@style/header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/lab_text_select_city" />
-
-    <EditText
-        android:id="@+id/edit_text_city"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/edit_text_enter_the_city"
-        android:inputType="text" />
-
-    <Button
-        android:id="@+id/button_show_description"
-        style="@style/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_result" />
-
-    <TextView
-        android:id="@+id/textview_description"
-        style="@style/normal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <Switch
-        android:id="@+id/switch_humidity"
+    <fragment
+        android:id="@+id/fragment_main"
+        android:name="silantyevmn.ru.weather.MainFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/switch_text_show_humidity" />
-
-    <Switch
-        android:id="@+id/switch_pressure"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/switch_text_show_pressure" />
-
-    <Switch
-        android:id="@+id/switch_wind"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/switch_text_show_wind" />
-</LinearLayout>
+        android:layout_height="match_parent" />
+</FrameLayout>
