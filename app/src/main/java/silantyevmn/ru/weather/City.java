@@ -26,7 +26,11 @@ public class City {
     }
 
     public String getTemperature(String prefix) {
-        return temperature > 0 ? "+" + temperature + prefix : "-" + temperature + prefix;
+        if (temperature > 0) {
+            return "+" + temperature + prefix;
+        } else if (temperature < 0) {
+            return "-" + temperature + prefix;
+        } else return temperature + prefix;
     }
 
     public String getHumidity(String prefix) {
