@@ -1,13 +1,12 @@
 package silantyevmn.ru.weather;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.FrameLayout;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.onSelectedButtonListener {
-    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,33 +16,50 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSe
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
+        // запускаем фрагмент1 и начинаем транзакцию
+        if (savedInstanceState == null) {
+            MainFragment fragment1 = new MainFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_main, fragment1)
+                    .commit();
 
-    @Override
-    public void onSelectedButton(int position) {
-        this.position=position;
-        // подключаем FragmentManager
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        // Получаем ссылку на второй фрагмент по ID
-        WeatherFragment weatherFragment = (WeatherFragment) fragmentManager.findFragmentById(R.id.fragment_weather);
-        // если фрагмента не существует или он невидим
-        if (weatherFragment == null || !weatherFragment.isVisible()) {
-            // запускаем активность
-            Intent intent = new Intent(MainActivity.this, WeatherActivity.class);
-            intent.putExtra(WeatherActivity.EXTRA_POSITION_ID, position);
-            startActivity(intent);
-        } else {
-            // Выводим нужную информацию
-            weatherFragment.setDescription(position);
+            FrameLayout fragment2 = findViewById(R.id.fragment_weather);
+            WeatherPreferencer weatherPreferencer=WeatherPreferencer.getInstance(MainActivity.this);
+            if (fragment2 != null) {
+                WeatherFragment weatherFragment = WeatherFragment.newInstance(
+                       weatherPreferencer.getEditTextCity(),
+                       weatherPreferencer.getIsHumidity(),
+                        weatherPreferencer.getIsPressure(),
+                        weatherPreferencer.getIsWind());
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.fragment_weather, weatherFragment)
+                        .commit();
+            }
         }
     }
 
     @Override
-    public void onSelectedSwitch(boolean humiditySwitch, boolean pressureSwitch, boolean windSwitch) {
-        //записываем показатели чекбоксов
-        CityEmmiter.setIsHumidity(humiditySwitch);
-        CityEmmiter.setIsPressure(pressureSwitch);
-        CityEmmiter.setIsWind(windSwitch);
-
+    public void onClickButton(String currentCity, boolean isHumidity, boolean isPressure, boolean isWind) {
+        // Получаем ссылку на второй фрагмент по ID
+        FrameLayout fragment = findViewById(R.id.fragment_weather);
+        // если фрагмента не существует
+        if (fragment == null) {
+            // запускаем активность, если город нашелся
+            if(CityEmmiter.getPositionFindCity(currentCity)!=-1) {
+                Intent intent = new Intent(MainActivity.this, WeatherActivity.class);
+                intent.putExtra(WeatherPreferencer.KEY_CURRENT_CITY, currentCity);
+                intent.putExtra(WeatherPreferencer.KEY_HUMIDITY, isHumidity);
+                intent.putExtra(WeatherPreferencer.KEY_PRESSURE, isPressure);
+                intent.putExtra(WeatherPreferencer.KEY_WIND, isWind);
+                startActivity(intent);
+            }
+        } else {
+            // Выводим 2-фрагмент
+            WeatherFragment weatherFragment = WeatherFragment.newInstance(currentCity, isHumidity, isPressure, isWind);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_weather, weatherFragment)
+                    .commit();
+        }
     }
+
 }
