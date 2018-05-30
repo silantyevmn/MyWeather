@@ -1,17 +1,10 @@
 package silantyevmn.ru.weather;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 public class WeatherActivity extends AppCompatActivity {
-    public static final String EXTRA_POSITION_ID = "position_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,16 +14,15 @@ public class WeatherActivity extends AppCompatActivity {
             finish();
             return;
         }
-
-        //считываем переданную позицию
-        int position = getIntent().getIntExtra(EXTRA_POSITION_ID, -1);
-        if(position!=-1) {
-            // подключаем FragmentManager
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            // Получаем ссылку на второй фрагмент по ID
-            WeatherFragment weatherFragment = (WeatherFragment)fragmentManager.findFragmentById(R.id.fragment_weather);
-            weatherFragment.setArguments(savedInstanceState);
-            weatherFragment.setDescription(position);
-        }
+        //считываем значения из активити
+        String currentCity = getIntent().getStringExtra(WeatherPreferencer.KEY_CURRENT_CITY);
+        boolean isHumidity = getIntent().getBooleanExtra(WeatherPreferencer.KEY_HUMIDITY, WeatherPreferencer.SWITCH_HUMIDITY_DEFAULT);
+        boolean isPressure = getIntent().getBooleanExtra(WeatherPreferencer.KEY_PRESSURE, WeatherPreferencer.SWITCH_PRESSURE_DEFAULT);
+        boolean isWind = getIntent().getBooleanExtra(WeatherPreferencer.KEY_WIND, WeatherPreferencer.SWITCH_WIND_DEFAULT);
+        //WeatherFragment weatherFragment= (WeatherFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_weather);
+        WeatherFragment weatherFragment = WeatherFragment.newInstance(currentCity, isHumidity, isPressure, isWind);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_weather, weatherFragment)
+                .commit();
     }
 }
