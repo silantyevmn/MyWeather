@@ -10,32 +10,6 @@ import java.util.ArrayList;
 
 public class CityEmmiter {
     private static ArrayList<City> cities;
-    private static boolean isHumidity, isPressure, isWind;
-
-    public static void setIsHumidity(boolean isHumidity) {
-        CityEmmiter.isHumidity = isHumidity;
-    }
-
-    public static void setIsPressure(boolean isPressure) {
-        CityEmmiter.isPressure = isPressure;
-    }
-
-    public static void setIsWind(boolean isWind) {
-        CityEmmiter.isWind = isWind;
-    }
-
-    public static boolean getIsHumidity() {
-
-        return isHumidity;
-    }
-
-    public static boolean getIsPressure() {
-        return isPressure;
-    }
-
-    public static boolean getIsWind() {
-        return isWind;
-    }
 
     public static ArrayList<City> getCities() {
         return cities;
