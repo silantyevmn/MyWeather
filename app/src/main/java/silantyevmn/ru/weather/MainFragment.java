@@ -3,6 +3,8 @@ package silantyevmn.ru.weather;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -23,6 +25,7 @@ public class MainFragment extends Fragment implements View.OnClickListener {
     private EditText editTextCity;
     private Switch humiditySwitch, pressureSwitch, windSwitch;
     private onSelectedButtonListener listener;
+    private String TAG_TEST_FRAGMENT ="test_fragment";
 
     public interface onSelectedButtonListener {
         public void onClickButton(String city, boolean isHumidity, boolean isPressure, boolean isWind);
@@ -65,6 +68,15 @@ public class MainFragment extends Fragment implements View.OnClickListener {
                 button.setEnabled(!editable.toString().trim().isEmpty());
             }
         });
+        //добавляем 3-й фрагмент
+        FragmentManager childFragmentManager = getChildFragmentManager();
+        TestFragment testFragment= (TestFragment) childFragmentManager.findFragmentByTag(TAG_TEST_FRAGMENT);
+        if(testFragment==null){
+            FragmentTransaction transaction=childFragmentManager.beginTransaction();
+            testFragment=new TestFragment();
+            transaction.add(R.id.fragment_test,testFragment,TAG_TEST_FRAGMENT);
+            transaction.commit();
+        }
         if (savedInstanceState == null) {
             //считываем из памяти значения
             load();
