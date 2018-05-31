@@ -1,7 +1,6 @@
 package silantyevmn.ru.weather;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
@@ -16,19 +15,18 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSe
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // запускаем фрагмент1 и начинаем транзакцию
+        // запускаем фрагменты и начинаем транзакцию
         if (savedInstanceState == null) {
-            MainFragment fragment1 = new MainFragment();
+           /* MainFragment fragment1 = new MainFragment();
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_main, fragment1)
-                    .commit();
-
+                    .commit();*/
             FrameLayout fragment2 = findViewById(R.id.fragment_weather);
-            WeatherPreferencer weatherPreferencer=WeatherPreferencer.getInstance(MainActivity.this);
+            WeatherPreferencer weatherPreferencer = WeatherPreferencer.getInstance(MainActivity.this);
             if (fragment2 != null) {
                 WeatherFragment weatherFragment = WeatherFragment.newInstance(
-                       weatherPreferencer.getEditTextCity(),
-                       weatherPreferencer.getIsHumidity(),
+                        weatherPreferencer.getEditTextCity(),
+                        weatherPreferencer.getIsHumidity(),
                         weatherPreferencer.getIsPressure(),
                         weatherPreferencer.getIsWind());
                 getSupportFragmentManager().beginTransaction()
@@ -45,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSe
         // если фрагмента не существует
         if (fragment == null) {
             // запускаем активность, если город нашелся
-            if(CityEmmiter.getPositionFindCity(currentCity)!=-1) {
+            if (CityEmmiter.getPositionFindCity(currentCity) != -1) {
                 Intent intent = new Intent(MainActivity.this, WeatherActivity.class);
                 intent.putExtra(WeatherPreferencer.KEY_CURRENT_CITY, currentCity);
                 intent.putExtra(WeatherPreferencer.KEY_HUMIDITY, isHumidity);
