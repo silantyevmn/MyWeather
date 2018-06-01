@@ -12,20 +12,20 @@
         android:hint="@string/edit_text_enter_the_city"
         android:inputType="text" />
 
-    <Switch
-        android:id="@+id/switch_humidity"
+    <CheckBox
+        android:id="@+id/checkbox_humidity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/switch_text_show_humidity" />
 
-    <Switch
-        android:id="@+id/switch_pressure"
+    <CheckBox
+        android:id="@+id/checkbox_pressure"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/switch_text_show_pressure" />
 
-    <Switch
-        android:id="@+id/switch_wind"
+    <CheckBox
+        android:id="@+id/checkbox_wind"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/switch_text_show_wind" />
