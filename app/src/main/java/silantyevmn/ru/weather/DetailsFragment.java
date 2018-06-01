@@ -13,15 +13,27 @@ import android.widget.TextView;
  * Created by silan on 27.05.2018.
  */
 
-public class WeatherFragment extends Fragment {
+public class DetailsFragment extends Fragment {
     private City city;
     private TextView textViewCityName, textViewTemperature, textViewHumidity, textViewPressure, textViewWind;
     private LinearLayout layoutTemperature, layoutHumidity, layoutPressure, layoutWind;
 
+    //передаем аргументы(позицию) во фрагмент
+    public static DetailsFragment newInstance(String currentCity, boolean isHumidity, boolean isPressure, boolean isWind) {
+        Bundle args = new Bundle();
+        args.putString(DataPreferences.KEY_CURRENT_CITY, currentCity);
+        args.putBoolean(DataPreferences.KEY_HUMIDITY, isHumidity);
+        args.putBoolean(DataPreferences.KEY_PRESSURE, isPressure);
+        args.putBoolean(DataPreferences.KEY_WIND, isWind);
+        DetailsFragment fragment = new DetailsFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_weather, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
         //setRetainInstance(true);
         return initView(rootView);
     }
@@ -48,13 +60,11 @@ public class WeatherFragment extends Fragment {
     }
 
     public void showFragment(Bundle bundle) {
-        String currentCity = bundle.getString(WeatherPreferencer.KEY_CURRENT_CITY);
-        boolean isHumidity = bundle.getBoolean(WeatherPreferencer.KEY_HUMIDITY, WeatherPreferencer.SWITCH_HUMIDITY_DEFAULT);
-        boolean isPressure = bundle.getBoolean(WeatherPreferencer.KEY_PRESSURE, WeatherPreferencer.SWITCH_PRESSURE_DEFAULT);
-        boolean isWind = bundle.getBoolean(WeatherPreferencer.KEY_WIND, WeatherPreferencer.SWITCH_WIND_DEFAULT);
-        if (currentCity == null) {
-            //заглушка
-        } else {
+        String currentCity = bundle.getString(DataPreferences.KEY_CURRENT_CITY);
+        boolean isHumidity = bundle.getBoolean(DataPreferences.KEY_HUMIDITY, DataPreferences.HUMIDITY_DEFAULT);
+        boolean isPressure = bundle.getBoolean(DataPreferences.KEY_PRESSURE, DataPreferences.PRESSURE_DEFAULT);
+        boolean isWind = bundle.getBoolean(DataPreferences.KEY_WIND, DataPreferences.WIND_DEFAULT);
+        if (currentCity != null) {
             //ищем город в базе
             int position = CityEmmiter.getPositionFindCity(currentCity);
             //если не нашли город в базе
@@ -86,17 +96,4 @@ public class WeatherFragment extends Fragment {
         layout.setVisibility(visible);
         textView.setText(value);
     }
-
-    //передаем аргументы(позицию) во фрагмент
-    public static WeatherFragment newInstance(String currentCity, boolean isHumidity, boolean isPressure, boolean isWind) {
-        Bundle args = new Bundle();
-        args.putString(WeatherPreferencer.KEY_CURRENT_CITY, currentCity);
-        args.putBoolean(WeatherPreferencer.KEY_HUMIDITY, isHumidity);
-        args.putBoolean(WeatherPreferencer.KEY_PRESSURE, isPressure);
-        args.putBoolean(WeatherPreferencer.KEY_WIND, isWind);
-        WeatherFragment fragment = new WeatherFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
 }
