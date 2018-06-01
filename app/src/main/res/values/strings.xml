@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Weather</string>
+    <string name="weather_app">Weather app</string>
+    <string name="lab_text_select_city">Select city</string>
+    <string name="btn_result">Result</string>
+    <string name="textview_result"></string>
+    <string name="edit_text_enter_the_city">Enter the city</string>
+    <string name="text_label_city">City</string>
+    <string name="text_label_temperature">Temperature</string>
+    <string name="text_label_pressure">Pressure</string>
+    <string name="text_label_humidity">Humidity</string>
+    <string name="text_label_wind">Wind</string>
+    <string name="text_prefix_humidity">%</string>
+    <string name="text_prefix_pressure">mm r.s</string>
+    <string name="text_prefix_wind">m/s</string>
+    <string name="text_prefix_temperature">C</string>
+    <string name="text_city_not_found">City not found</string>
+    <string name="switch_text_show_humidity">Show humidity</string>
+    <string name="switch_text_show_pressure">Show pressure</string>
+    <string name="switch_text_show_wind">Show wind</string>
 </resources>
