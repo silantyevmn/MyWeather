@@ -11,14 +11,9 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
     </fragment>
-   <!-- <FrameLayout
-        android:id="@+id/fragment_main"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />-->
 
     <FrameLayout
-        android:id="@+id/fragment_weather"
+        android:id="@+id/fragment_details"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1" />
