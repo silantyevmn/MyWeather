@@ -5,6 +5,11 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+<!--
     <EditText
         android:id="@+id/edit_text_city"
         android:layout_width="match_parent"
@@ -41,10 +46,6 @@
         android:id="@+id/textview_description"
         style="@style/normal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <FrameLayout
-        android:id="@+id/fragment_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-    </FrameLayout>
+        android:layout_height="wrap_content" />-->
+
 </LinearLayout>
