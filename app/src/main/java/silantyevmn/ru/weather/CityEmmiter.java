@@ -15,12 +15,12 @@ public class CityEmmiter {
         return cities;
     }
 
-    public static void initNewCityParam(Context context, int minTemperature, int maxTemperature) {
+    public static void initNewCityParam(Context context) {
         String[] arrCity = context.getResources().getStringArray(R.array.city_selection);
         cities = new ArrayList<>();
         for (int i = 0; i < arrCity.length; i++) {
             String name = arrCity[i].toString();
-            int temperature = getRandomMinMax(minTemperature, maxTemperature);
+            int temperature = getRandomMinMax(10, 30);
             int humidity = getRandomMinMax(10, 100);
             int pressure = getRandomMinMax(500, 800);
             int wind = getRandomMinMax(1, 20);
@@ -30,14 +30,5 @@ public class CityEmmiter {
 
     private static int getRandomMinMax(int min, int max) {
         return (int) (Math.random() * (max - min)) + min;
-    }
-
-    public static int getPositionFindCity(String value) {
-        for (int i = 0; i < cities.size(); i++) {
-            if (cities.get(i).getName().toUpperCase().equals(value.toUpperCase())) {
-                return i;
-            }
-        }
-        return -1;
     }
 }
