@@ -4,8 +4,12 @@
     android:layout_height="match_parent">
 
     <fragment
-        android:id="@+id/fragment_main"
-        android:name="silantyevmn.ru.weather.MainFragment"
+        android:id="@+id/fragment_list"
+        android:name="silantyevmn.ru.weather.ListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+<!--    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>-->
 </FrameLayout>
