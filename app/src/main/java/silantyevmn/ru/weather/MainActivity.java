@@ -1,43 +1,47 @@
 package silantyevmn.ru.weather;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.FrameLayout;
 
-public class MainActivity extends AppCompatActivity implements MainFragment.onSelectedButtonListener {
+public class MainActivity extends AppCompatActivity implements ListFragment.onClickCityListItem {
+    private MenuItem itemHumidity, itemPressure, itemWind;
+    private int position;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (CityEmmiter.getCities() == null) {
             // Расчитываем погоду:)
-            CityEmmiter.initNewCityParam(MainActivity.this, 5, 30);
+            CityEmmiter.initNewCityParam(MainActivity.this);
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // если первый запуск
-        if (savedInstanceState == null) {
-            FrameLayout fragment2 = findViewById(R.id.fragment_details);
-            //проверяем есть в активити фрагмент деталей погоды?
-            if (fragment2 != null) {
-                //если есть, то показываем его
-                DetailsFragment detailsFragment = DetailsFragment.newInstance(
-                        //передаем во фрагмент значение из памяти приложения
-                        DataPreferences.getEditTextCity(this),
-                        DataPreferences.getIsHumidity(this),
-                        DataPreferences.getIsPressure(this),
-                        DataPreferences.getIsWind(this));
-                //запускаем транзакцию и добавляем фрагмент
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragment_details, detailsFragment)
-                        .commit();
-            }
+
+        FrameLayout fragment2 = findViewById(R.id.fragment_details);
+        //проверяем есть в активити фрагмент деталей погоды?
+        if (fragment2 != null) {
+            //если есть, то показываем его
+            DetailsFragment detailsFragment = DetailsFragment.newInstance(
+                    //передаем во фрагмент значение из памяти приложения
+                    Keys.getPosition(this),
+                    Keys.getIsHumidity(this),
+                    Keys.getIsPressure(this),
+                    Keys.getIsWind(this));
+            //запускаем транзакцию и добавляем фрагмент
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_details, detailsFragment)
+                    .commit();
         }
     }
 
     @Override
-    public void onClickButton(String currentCity, boolean isHumidity, boolean isPressure, boolean isWind) {
-        int position=CityEmmiter.getPositionFindCity(currentCity);
+    public void onClickListItem(int position) {
+        this.position=position;
+        save();
         // Получаем ссылку на второй фрагмент по ID
         FrameLayout fragment = findViewById(R.id.fragment_details);
         // если фрагмента не существует
@@ -45,19 +49,69 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onSe
             // запускаем активность, если город нашелся
             if (position != -1) {
                 Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                intent.putExtra(DataPreferences.KEY_CURRENT_CITY, currentCity);
-                intent.putExtra(DataPreferences.KEY_HUMIDITY, isHumidity);
-                intent.putExtra(DataPreferences.KEY_PRESSURE, isPressure);
-                intent.putExtra(DataPreferences.KEY_WIND, isWind);
+                intent.putExtra(Keys.KEY_POSITION, position);
+                intent.putExtra(Keys.KEY_HUMIDITY, itemHumidity.isChecked());
+                intent.putExtra(Keys.KEY_PRESSURE, itemPressure.isChecked());
+                intent.putExtra(Keys.KEY_WIND, itemWind.isChecked());
                 startActivity(intent);
             }
         } else {
             // Выводим 2-фрагмент
-            DetailsFragment detailsFragment = DetailsFragment.newInstance(currentCity, isHumidity, isPressure, isWind);
+            DetailsFragment detailsFragment = DetailsFragment.newInstance(position, itemHumidity.isChecked(), itemPressure.isChecked(), itemWind.isChecked());
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_details, detailsFragment)
                     .commit();
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        itemHumidity = menu.findItem(R.id.item_humidity);
+        itemPressure = menu.findItem(R.id.item_pressure);
+        itemWind = menu.findItem(R.id.item_wind);
+        load();
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void load() {
+        itemHumidity.setChecked(Keys.getIsHumidity(this));
+        itemPressure.setChecked(Keys.getIsPressure(this));
+        itemWind.setChecked(Keys.getIsWind(this));
+    }
+
+    private void save() {
+        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+        editor.putInt(Keys.KEY_POSITION, position);
+        editor.putBoolean(Keys.KEY_HUMIDITY, itemHumidity.isChecked());
+        editor.putBoolean(Keys.KEY_PRESSURE, itemPressure.isChecked());
+        editor.putBoolean(Keys.KEY_WIND, itemWind.isChecked());
+        editor.apply();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.item_humidity: {
+                itemClickChecked(item, item.isChecked());
+                return false;
+            }
+            case R.id.item_pressure: {
+                itemClickChecked(item, item.isChecked());
+                return false;
+            }
+            case R.id.item_wind: {
+                itemClickChecked(item, item.isChecked());
+                return false;
+            }
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void itemClickChecked(MenuItem item, boolean isChecked) {
+        item.setChecked(!isChecked);
+        save();
+    }
 }
