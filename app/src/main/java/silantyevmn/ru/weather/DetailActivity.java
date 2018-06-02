@@ -15,14 +15,15 @@ public class DetailActivity extends AppCompatActivity {
             return;
         }
         //считываем значения из активити
-        String currentCity = getIntent().getStringExtra(DataPreferences.KEY_CURRENT_CITY);
-        boolean isHumidity = getIntent().getBooleanExtra(DataPreferences.KEY_HUMIDITY, DataPreferences.HUMIDITY_DEFAULT);
-        boolean isPressure = getIntent().getBooleanExtra(DataPreferences.KEY_PRESSURE, DataPreferences.PRESSURE_DEFAULT);
-        boolean isWind = getIntent().getBooleanExtra(DataPreferences.KEY_WIND, DataPreferences.WIND_DEFAULT);
+        int position = getIntent().getIntExtra(Keys.KEY_POSITION, Keys.POSITION_DEFAULT);
+        boolean isHumidity = getIntent().getBooleanExtra(Keys.KEY_HUMIDITY, Keys.HUMIDITY_DEFAULT);
+        boolean isPressure = getIntent().getBooleanExtra(Keys.KEY_PRESSURE, Keys.PRESSURE_DEFAULT);
+        boolean isWind = getIntent().getBooleanExtra(Keys.KEY_WIND, Keys.WIND_DEFAULT);
         //наполняем и показываем фрагмент
-        DetailsFragment fragment = DetailsFragment.newInstance(currentCity, isHumidity, isPressure, isWind);
+        DetailsFragment fragment = DetailsFragment.newInstance(position, isHumidity, isPressure, isWind);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_details, fragment)
                 .commit();
     }
+
 }
