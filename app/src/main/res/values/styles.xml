@@ -23,5 +23,9 @@
         <item name="android:layout_width">@dimen/image_min_layout_size</item>
         <item name="android:layout_height">@dimen/image_min_layout_size</item>
     </style>
+    <style name="itemTextView">
+        <item name="android:textSize">@dimen/text_size25</item>
+        <item name="android:color">@color/colorPrimary</item>
+    </style>
 
 </resources>
