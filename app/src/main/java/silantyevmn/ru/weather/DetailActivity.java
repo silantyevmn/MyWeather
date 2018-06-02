@@ -19,6 +19,7 @@ public class DetailActivity extends AppCompatActivity {
         boolean isHumidity = getIntent().getBooleanExtra(DataPreferences.KEY_HUMIDITY, DataPreferences.HUMIDITY_DEFAULT);
         boolean isPressure = getIntent().getBooleanExtra(DataPreferences.KEY_PRESSURE, DataPreferences.PRESSURE_DEFAULT);
         boolean isWind = getIntent().getBooleanExtra(DataPreferences.KEY_WIND, DataPreferences.WIND_DEFAULT);
+        //наполняем и показываем фрагмент
         DetailsFragment fragment = DetailsFragment.newInstance(currentCity, isHumidity, isPressure, isWind);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_details, fragment)
