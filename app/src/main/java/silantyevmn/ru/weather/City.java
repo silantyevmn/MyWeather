@@ -25,6 +25,10 @@ public class City {
         return name;
     }
 
+    public void setName(String name){
+        this.name=name;
+    }
+
     public String getTemperature(String prefix) {
         if (temperature > 0) {
             return "+" + temperature + prefix;
