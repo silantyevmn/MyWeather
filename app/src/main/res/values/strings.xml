@@ -18,4 +18,10 @@
     <string name="switch_text_show_humidity">Show humidity</string>
     <string name="switch_text_show_pressure">Show pressure</string>
     <string name="switch_text_show_wind">Show wind</string>
+    <string name="text_add">add</string>
+    <string name="text_delete">delete</string>
+    <string name="text_ok">Ок</string>
+    <string name="text_cancel">Cancel</string>
+    <string name="text_dialog_edit_item">Enter the name of the city:</string>
+    <string name="text_edit">edit</string>
 </resources>
