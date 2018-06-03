@@ -14,20 +14,25 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (CityEmmiter.getCities() == null) {
-            // Расчитываем погоду:)
-            CityEmmiter.initNewCityParam(MainActivity.this);
-        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FrameLayout fragment2 = findViewById(R.id.fragment_details);
+        if (savedInstanceState == null) {
+            if (CityEmmiter.getCities() == null) {
+                // Расчитываем погоду:)
+                String[] arrCity = getResources().getStringArray(R.array.city_selection);
+                CityEmmiter.initNewCityParam(arrCity);
+            }
+        }
+
+        int position = (savedInstanceState == null) ? Keys.POSITION_DEFAULT : Keys.getPosition(this);
+        FrameLayout fragment2 = (FrameLayout) findViewById(R.id.fragment_details);
         //проверяем есть в активити фрагмент деталей погоды?
         if (fragment2 != null) {
             //если есть, то показываем его
             DetailsFragment detailsFragment = DetailsFragment.newInstance(
                     //передаем во фрагмент значение из памяти приложения
-                    Keys.getPosition(this),
+                    position,
                     Keys.getIsHumidity(this),
                     Keys.getIsPressure(this),
                     Keys.getIsWind(this));
@@ -40,10 +45,10 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
 
     @Override
     public void onClickListItem(int position) {
-        this.position=position;
+        this.position = position;
         save();
         // Получаем ссылку на второй фрагмент по ID
-        FrameLayout fragment = findViewById(R.id.fragment_details);
+        FrameLayout fragment = (FrameLayout) findViewById(R.id.fragment_details);
         // если фрагмента не существует
         if (fragment == null) {
             // запускаем активность, если город нашелся
@@ -64,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
         }
     }
 
+    //иницилизируем боковое меню
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
@@ -74,21 +80,7 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void load() {
-        itemHumidity.setChecked(Keys.getIsHumidity(this));
-        itemPressure.setChecked(Keys.getIsPressure(this));
-        itemWind.setChecked(Keys.getIsWind(this));
-    }
-
-    private void save() {
-        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-        editor.putInt(Keys.KEY_POSITION, position);
-        editor.putBoolean(Keys.KEY_HUMIDITY, itemHumidity.isChecked());
-        editor.putBoolean(Keys.KEY_PRESSURE, itemPressure.isChecked());
-        editor.putBoolean(Keys.KEY_WIND, itemWind.isChecked());
-        editor.apply();
-    }
-
+    //обрабатываем нажатия на боковое меню
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -110,8 +102,25 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
         }
     }
 
+    //устанавливаем значение и сохраняем показатели чекбоксов в боковом меню
     private void itemClickChecked(MenuItem item, boolean isChecked) {
         item.setChecked(!isChecked);
         save();
     }
+
+    private void load() {
+        itemHumidity.setChecked(Keys.getIsHumidity(this));
+        itemPressure.setChecked(Keys.getIsPressure(this));
+        itemWind.setChecked(Keys.getIsWind(this));
+    }
+
+    private void save() {
+        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+        editor.putInt(Keys.KEY_POSITION, position);
+        editor.putBoolean(Keys.KEY_HUMIDITY, itemHumidity.isChecked());
+        editor.putBoolean(Keys.KEY_PRESSURE, itemPressure.isChecked());
+        editor.putBoolean(Keys.KEY_WIND, itemWind.isChecked());
+        editor.apply();
+    }
+
 }
