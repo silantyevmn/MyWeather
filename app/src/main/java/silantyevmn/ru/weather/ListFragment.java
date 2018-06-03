@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -15,14 +18,20 @@ import android.widget.TextView;
  * Created by silan on 02.06.2018.
  */
 
-public class ListFragment extends Fragment {
+public class ListFragment extends Fragment implements DialogEditItem.onUpdateAdapter {
     private final int ORIENTATION = LinearLayout.VERTICAL; //1
     private onClickCityListItem listener;
     private MyAdapter adapter;
 
     // Создадим интерфейс, через который мы будем передавать номер строки списка, нажатой пользователем
     public interface onClickCityListItem {
-        void onClickListItem(int id);
+        void onClickListItem(int position);
+    }
+
+    //обновляем адаптер
+    @Override
+    public void onUpdateAdapterItem() {
+        adapter.notifyDataSetChanged();
     }
 
     // Инстантиируем наш интерфейс
@@ -50,14 +59,40 @@ public class ListFragment extends Fragment {
     }
 
     // Класс, который содержит в себе все элементы списка
-    private class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
         private TextView cityNameTextView;
+        //обработчик на контекстное меню
+        private final MenuItem.OnMenuItemClickListener onEditMenu = new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int position = getAdapterPosition();
+                switch (item.getItemId()) {
+                    case R.id.item_add: {
+                        addCity(position, "NewCity");
+                        break;
+                    }
+                    case R.id.item_delete: {
+                        deleteCity(position);
+                        break;
+                    }
+                    case R.id.item_menu_edit: {
+                        editCity(position);
+                        break;
+                    }
+                }
+                adapter.notifyDataSetChanged();
+                return false;
+            }
+        };
 
         MyViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.fragment_list_item, parent, false));
             //установим обработчик нажатия на список
-            itemView.setOnClickListener(this);
             cityNameTextView = (TextView) itemView.findViewById(R.id.text_view_item);
+            itemView.setOnClickListener(this);
+            //регистрируем контекст_меню
+            registerForContextMenu(itemView);
+            itemView.setOnCreateContextMenuListener(this);
         }
 
         void bind(String value) {
@@ -68,8 +103,18 @@ public class ListFragment extends Fragment {
         public void onClick(View view) {
             setPositionOnActivity(this.getLayoutPosition());
         }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            MenuInflater inflater = getActivity().getMenuInflater();
+            inflater.inflate(R.menu.context_menu, contextMenu);
+            contextMenu.findItem(R.id.item_add).setOnMenuItemClickListener(onEditMenu);
+            contextMenu.findItem(R.id.item_delete).setOnMenuItemClickListener(onEditMenu);
+            contextMenu.findItem(R.id.item_menu_edit).setOnMenuItemClickListener(onEditMenu);
+        }
     }
 
+    //обработка нажатий на список, передача position
     private void setPositionOnActivity(int position) {
         listener.onClickListItem(position);
     }
@@ -93,5 +138,20 @@ public class ListFragment extends Fragment {
             return CityEmmiter.getCities().size();
         }
 
+    }
+
+    //добавление города в список
+    private void addCity(int position, String name) {
+        CityEmmiter.setAddNewCity(name, position);
+    }
+    //удаление города из списка
+    private void deleteCity(int position) {
+        CityEmmiter.setDeleteCity(position);
+    }
+    //редактирование города
+    private void editCity(int position) {
+        String name = CityEmmiter.getCities().get(position).getName();
+        //показываем окно с вводом города
+        new DialogEditItem(this).editItem(getContext(), name, position);
     }
 }
