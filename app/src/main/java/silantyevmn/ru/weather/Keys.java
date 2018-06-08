@@ -36,9 +36,4 @@ public class Keys {
     public static boolean getIsWind(Activity activity) {
         return activity.getPreferences(Context.MODE_PRIVATE).getBoolean(KEY_WIND, WIND_DEFAULT);
     }
-
-    public static Set<String> getCities(MainActivity mainActivity) {
-        Set<String> cities = mainActivity.getPreferences(Context.MODE_PRIVATE).getStringSet("cities", new HashSet<String>());
-        return cities;
-    }
 }
