@@ -15,7 +15,7 @@ public class DialogEditItem {
     private onUpdateAdapter listener;
 
     public interface onUpdateAdapter {
-        void onUpdateAdapterItem();
+        void onUpdateAdapterItem(int position);
     }
 
     public DialogEditItem(ListFragment listFragment) {
@@ -46,7 +46,7 @@ public class DialogEditItem {
                             public void onClick(DialogInterface dialog, int id) {
                                 //Вводим текст и меняем его в cities
                                 CityEmmiter.setEditCity(userInput.getText().toString(), positionId);
-                                listener.onUpdateAdapterItem();
+                                listener.onUpdateAdapterItem(positionId);
                                 //adapter.notifyDataSetChanged();
                             }
                         })
