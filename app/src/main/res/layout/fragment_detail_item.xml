@@ -18,17 +18,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:hint="23.06"
                 android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/layout_temperature"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/padding5"
+                style="@style/MyLinearLayoutDetailsItem"
                 android:visibility="visible">
 
                 <ImageView
@@ -38,20 +32,12 @@
 
                 <TextView
                     android:id="@+id/text_view_temperature"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="+25C"
-                    android:padding="1dp" />
+                    style="@style/MyTextStyleDetailsItem" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_humidity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/padding5"
+                style="@style/MyLinearLayoutDetailsItem"
                 android:visibility="gone">
 
                 <ImageView
@@ -61,20 +47,12 @@
 
                 <TextView
                     android:id="@+id/text_view_humidity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="73%"
-                    android:padding="1dp" />
+                    style="@style/MyTextStyleDetailsItem" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_pressure"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/padding5"
+                style="@style/MyLinearLayoutDetailsItem"
                 android:visibility="gone">
 
                 <ImageView
@@ -84,20 +62,12 @@
 
                 <TextView
                     android:id="@+id/text_view_pressure"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="587mm.r.s"
-                    android:padding="1dp" />
+                    style="@style/MyTextStyleDetailsItem" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_wind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="@dimen/padding5"
+                style="@style/MyLinearLayoutDetailsItem"
                 android:visibility="gone">
 
                 <ImageView
@@ -107,10 +77,7 @@
 
                 <TextView
                     android:id="@+id/text_view_wind"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="15m.s"
-                    android:padding="1dp" />
+                    style="@style/MyTextStyleDetailsItem" />
             </LinearLayout>
         </LinearLayout>
 
