@@ -19,7 +19,6 @@ import android.widget.TextView;
  */
 
 public class ListFragment extends Fragment implements DialogEditItem.onUpdateAdapter {
-    private final int ORIENTATION = LinearLayout.VERTICAL; //1
     private onClickCityListItem listener;
     private MyAdapter adapter;
 
@@ -30,8 +29,8 @@ public class ListFragment extends Fragment implements DialogEditItem.onUpdateAda
 
     //обновляем адаптер
     @Override
-    public void onUpdateAdapterItem() {
-        adapter.notifyDataSetChanged();
+    public void onUpdateAdapterItem(int position) {
+        adapter.notifyItemChanged(position);
     }
 
     // Инстантиируем наш интерфейс
@@ -49,7 +48,7 @@ public class ListFragment extends Fragment implements DialogEditItem.onUpdateAda
         // Создадим LinearLayoutManager.
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         // Обозначим ориентацию
-        layoutManager.setOrientation(ORIENTATION);
+        layoutManager.setOrientation(LinearLayout.VERTICAL);
         // Назначим нашему RecyclerView созданный ранее layoutManager
         recyclerView.setLayoutManager(layoutManager);
         // Назначим нашему RecyclerView адаптер
@@ -61,6 +60,7 @@ public class ListFragment extends Fragment implements DialogEditItem.onUpdateAda
     // Класс, который содержит в себе все элементы списка
     private class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
         private TextView cityNameTextView;
+        private TextView cityTemperatureTextView;
         //обработчик на контекстное меню
         private final MenuItem.OnMenuItemClickListener onEditMenu = new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -88,15 +88,17 @@ public class ListFragment extends Fragment implements DialogEditItem.onUpdateAda
         MyViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.fragment_list_item, parent, false));
             //установим обработчик нажатия на список
-            cityNameTextView = (TextView) itemView.findViewById(R.id.text_view_item);
+            cityNameTextView = itemView.findViewById(R.id.text_view_city);
+            cityTemperatureTextView = itemView.findViewById(R.id.text_view_temperature);
             itemView.setOnClickListener(this);
             //регистрируем контекст_меню
             registerForContextMenu(itemView);
             itemView.setOnCreateContextMenuListener(this);
         }
 
-        void bind(String value) {
-            cityNameTextView.setText(value);
+        void bind(City city) {
+            cityNameTextView.setText(city.getName());
+            cityTemperatureTextView.setText(city.getTemperature(getContext()));
         }
 
         @Override
@@ -130,7 +132,8 @@ public class ListFragment extends Fragment implements DialogEditItem.onUpdateAda
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
-            holder.bind(CityEmmiter.getCities().get(position).getName());
+            City city = CityEmmiter.getCities().get(position);
+            holder.bind(city);
         }
 
         @Override
@@ -143,11 +146,15 @@ public class ListFragment extends Fragment implements DialogEditItem.onUpdateAda
     //добавление города в список
     private void addCity(int position, String name) {
         CityEmmiter.setAddNewCity(name, position);
+        adapter.notifyItemChanged(position);
     }
+
     //удаление города из списка
     private void deleteCity(int position) {
         CityEmmiter.setDeleteCity(position);
+        adapter.notifyItemRemoved(position);
     }
+
     //редактирование города
     private void editCity(int position) {
         String name = CityEmmiter.getCities().get(position).getName();
