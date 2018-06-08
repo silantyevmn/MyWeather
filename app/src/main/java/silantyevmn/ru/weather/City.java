@@ -1,5 +1,10 @@
 package silantyevmn.ru.weather;
 
+import android.content.Context;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -12,6 +17,45 @@ public class City {
     private int humidity; //влажность
     private int pressure; //давление
     private int wind; //скорость ветра
+    private boolean isHumidity;
+    private boolean isPressure;
+    private boolean isWind;
+
+    public void setTemperature(int temperature){
+        this.temperature=temperature;
+    }
+    public boolean isHumidity() {
+        return isHumidity;
+    }
+
+    public void setIsHumidity(boolean humidity) {
+        isHumidity = humidity;
+    }
+
+    public boolean isPressure() {
+        return isPressure;
+    }
+
+    public void setIsPressure(boolean pressure) {
+        isPressure = pressure;
+    }
+
+    public boolean isWind() {
+        return isWind;
+    }
+
+    public void setIsWind(boolean wind) {
+        isWind = wind;
+    }
+
+    private Calendar currentDate;
+    public String getCurrentDate(String format){
+        SimpleDateFormat dateformat = new SimpleDateFormat(format);
+        return dateformat.format(currentDate.getTime());
+    }
+    public void setCurrentDate(Calendar c){
+        this.currentDate=c;
+    }
 
     public City(String name, int temperature, int humidity, int pressure, int wind) {
         this.name = name;
@@ -29,7 +73,8 @@ public class City {
         this.name=name;
     }
 
-    public String getTemperature(String prefix) {
+    public String getTemperature(Context context) {
+        String prefix=context.getResources().getString(R.string.text_prefix_temperature);
         if (temperature > 0) {
             return "+" + temperature + prefix;
         } else if (temperature < 0) {
@@ -37,15 +82,18 @@ public class City {
         } else return temperature + prefix;
     }
 
-    public String getHumidity(String prefix) {
+    public String getHumidity(Context context) {
+        String prefix=context.getResources().getString(R.string.text_prefix_humidity);
         return humidity + prefix;
     }
 
-    public String getPressure(String prefix) {
+    public String getPressure(Context context) {
+        String prefix=context.getResources().getString(R.string.text_prefix_pressure);
         return pressure + prefix;
     }
 
-    public String getWind(String prefix) {
+    public String getWind(Context context) {
+        String prefix=context.getResources().getString(R.string.text_prefix_wind);
         return wind + prefix;
     }
 
