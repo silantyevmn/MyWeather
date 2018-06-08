@@ -19,4 +19,10 @@
     <string name="switch_text_show_humidity">Показать влажность</string>
     <string name="switch_text_show_pressure">Показать давление</string>
     <string name="switch_text_show_wind">Показать ветер</string>
+    <string name="text_add">добавить</string>
+    <string name="text_delete">удалить</string>
+    <string name="text_ok">Ок</string>
+    <string name="text_cancel">Отмена</string>
+    <string name="text_dialog_edit_item">Введите названия города:</string>
+    <string name="text_edit">редактировать</string>
 </resources>
