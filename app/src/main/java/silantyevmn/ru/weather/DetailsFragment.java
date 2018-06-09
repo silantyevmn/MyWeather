@@ -1,6 +1,8 @@
 package silantyevmn.ru.weather;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,12 +25,9 @@ public class DetailsFragment extends Fragment {
     private TextView tvCity;
 
     //передаем аргументы(позицию) во фрагмент
-    public static DetailsFragment newInstance(int position, boolean isHumidity, boolean isPressure, boolean isWind) {
+    public static DetailsFragment newInstance(int position) {
         Bundle args = new Bundle();
         args.putInt(Keys.KEY_POSITION, position);
-        args.putBoolean(Keys.KEY_HUMIDITY, isHumidity);
-        args.putBoolean(Keys.KEY_PRESSURE, isPressure);
-        args.putBoolean(Keys.KEY_WIND, isWind);
         DetailsFragment fragment = new DetailsFragment();
         fragment.setArguments(args);
         return fragment;
@@ -53,10 +52,10 @@ public class DetailsFragment extends Fragment {
 
     public void showFragment(Bundle bundle) {
         int position = bundle.getInt(Keys.KEY_POSITION, Keys.POSITION_DEFAULT);
-        boolean isHumidity = bundle.getBoolean(Keys.KEY_HUMIDITY, Keys.HUMIDITY_DEFAULT);
-        boolean isPressure = bundle.getBoolean(Keys.KEY_PRESSURE, Keys.PRESSURE_DEFAULT);
-        boolean isWind = bundle.getBoolean(Keys.KEY_WIND, Keys.WIND_DEFAULT);
-
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        boolean isHumidity= prefs.getBoolean(Keys.KEY_HUMIDITY,Keys.HUMIDITY_DEFAULT);
+        boolean isPressure = prefs.getBoolean(Keys.KEY_PRESSURE, Keys.PRESSURE_DEFAULT);
+        boolean isWind = prefs.getBoolean(Keys.KEY_WIND, Keys.WIND_DEFAULT);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
