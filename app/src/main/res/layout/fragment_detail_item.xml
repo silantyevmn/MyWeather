@@ -22,7 +22,7 @@
 
             <LinearLayout
                 android:id="@+id/layout_temperature"
-                style="@style/MyLinearLayoutDetailsItem"
+                style="@style/MyStyle.LinearLayout"
                 android:visibility="visible">
 
                 <ImageView
@@ -32,12 +32,12 @@
 
                 <TextView
                     android:id="@+id/text_view_temperature"
-                    style="@style/MyTextStyleDetailsItem" />
+                    style="@style/MyStyle" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_humidity"
-                style="@style/MyLinearLayoutDetailsItem"
+                style="@style/MyStyle.LinearLayout"
                 android:visibility="gone">
 
                 <ImageView
@@ -47,12 +47,12 @@
 
                 <TextView
                     android:id="@+id/text_view_humidity"
-                    style="@style/MyTextStyleDetailsItem" />
+                    style="@style/MyStyle"  />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_pressure"
-                style="@style/MyLinearLayoutDetailsItem"
+                style="@style/MyStyle.LinearLayout"
                 android:visibility="gone">
 
                 <ImageView
@@ -62,12 +62,12 @@
 
                 <TextView
                     android:id="@+id/text_view_pressure"
-                    style="@style/MyTextStyleDetailsItem" />
+                    style="@style/MyStyle"  />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/layout_wind"
-                style="@style/MyLinearLayoutDetailsItem"
+                style="@style/MyStyle.LinearLayout"
                 android:visibility="gone">
 
                 <ImageView
@@ -77,7 +77,7 @@
 
                 <TextView
                     android:id="@+id/text_view_wind"
-                    style="@style/MyTextStyleDetailsItem" />
+                    style="@style/MyStyle"  />
             </LinearLayout>
         </LinearLayout>
 
