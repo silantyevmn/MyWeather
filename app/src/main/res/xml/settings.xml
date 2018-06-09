@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="humidity"
+        android:summary="@string/text_turn_to_show_humidity"
+        android:title="@string/text_label_humidity" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="pressure"
+        android:summary="@string/text_turn_to_show_pressure"
+        android:title="@string/text_label_pressure" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="wind"
+        android:summary="@string/text_turn_to_show_wind"
+        android:title="@string/text_label_wind" />
+</PreferenceScreen>
