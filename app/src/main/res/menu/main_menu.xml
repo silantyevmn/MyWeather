@@ -3,25 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
-
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/item_humidity"
-            android:checkable="true"
-            android:orderInCategory="1"
-            android:title="@string/text_label_humidity"
-            app:showAsAction="never" />
-        <item
-            android:id="@+id/item_pressure"
-            android:checkable="true"
-            android:orderInCategory="1"
-            android:title="@string/text_label_pressure"
-            app:showAsAction="never" />
-        <item
-            android:id="@+id/item_wind"
-            android:checkable="true"
-            android:orderInCategory="1"
-            android:title="@string/text_label_wind"
-            app:showAsAction="never" />
-    </group>
+    <item
+        android:id="@+id/item_setting"
+        android:title="@string/setting"
+        app:showAsAction="always" />
 </menu>
