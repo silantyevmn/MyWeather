@@ -24,4 +24,8 @@
     <string name="text_cancel">Cancel</string>
     <string name="text_dialog_edit_item">Enter the name of the city:</string>
     <string name="text_edit">edit</string>
+    <string name="text_turn_to_show_humidity">Turn, to show humidity</string>
+    <string name="text_turn_to_show_pressure">Turn, to show pressure</string>
+    <string name="text_turn_to_show_wind">Turn, to show wind</string>
+    <string name="setting">setting</string>
 </resources>
