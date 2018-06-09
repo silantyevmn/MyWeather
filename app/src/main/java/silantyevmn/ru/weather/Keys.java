@@ -15,9 +15,9 @@ public class Keys {
     public static final boolean HUMIDITY_DEFAULT = false;
     public static final boolean PRESSURE_DEFAULT = false;
     public static final boolean WIND_DEFAULT = false;
-    public static final String KEY_HUMIDITY = "key_humidity";
-    public static final String KEY_PRESSURE = "key_pressure";
-    public static final String KEY_WIND = "key_wind";
+    public static final String KEY_HUMIDITY = "humidity";
+    public static final String KEY_PRESSURE = "pressure";
+    public static final String KEY_WIND = "wind";
     public static final String KEY_POSITION = "position";
     public static final int POSITION_DEFAULT = 0;
 
