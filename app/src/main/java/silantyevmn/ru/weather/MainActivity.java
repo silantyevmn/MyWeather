@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 public class MainActivity extends AppCompatActivity implements ListFragment.onClickCityListItem {
-    private MenuItem itemHumidity, itemPressure, itemWind;
     private int position;
 
     @Override
@@ -32,10 +31,7 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
             //если есть, то показываем его
             DetailsFragment detailsFragment = DetailsFragment.newInstance(
                     //передаем во фрагмент значение из памяти приложения
-                    position,
-                    Keys.getIsHumidity(this),
-                    Keys.getIsPressure(this),
-                    Keys.getIsWind(this));
+                    position);
             //запускаем транзакцию и добавляем фрагмент
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_details, detailsFragment)
@@ -45,8 +41,7 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
 
     @Override
     public void onClickListItem(int position) {
-        this.position = position;
-        save();
+        save(position);
         // Получаем ссылку на второй фрагмент по ID
         FrameLayout fragment = (FrameLayout) findViewById(R.id.fragment_details);
         // если фрагмента не существует
@@ -55,14 +50,11 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
             if (position != -1) {
                 Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                 intent.putExtra(Keys.KEY_POSITION, position);
-                intent.putExtra(Keys.KEY_HUMIDITY, itemHumidity.isChecked());
-                intent.putExtra(Keys.KEY_PRESSURE, itemPressure.isChecked());
-                intent.putExtra(Keys.KEY_WIND, itemWind.isChecked());
                 startActivity(intent);
             }
         } else {
             // Выводим 2-фрагмент
-            DetailsFragment detailsFragment = DetailsFragment.newInstance(position, itemHumidity.isChecked(), itemPressure.isChecked(), itemWind.isChecked());
+            DetailsFragment detailsFragment = DetailsFragment.newInstance(position);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_details, detailsFragment)
                     .commit();
@@ -73,10 +65,7 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
-        itemHumidity = menu.findItem(R.id.item_humidity);
-        itemPressure = menu.findItem(R.id.item_pressure);
-        itemWind = menu.findItem(R.id.item_wind);
-        load();
+        //MenuItem itemSetting=menu.findItem(R.id.item_setting);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -85,16 +74,8 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.item_humidity: {
-                itemClickChecked(item, item.isChecked());
-                return false;
-            }
-            case R.id.item_pressure: {
-                itemClickChecked(item, item.isChecked());
-                return false;
-            }
-            case R.id.item_wind: {
-                itemClickChecked(item, item.isChecked());
+            case R.id.item_setting:{
+                startActivity(new Intent(MainActivity.this,MyPreferenceActivity.class));
                 return false;
             }
             default:
@@ -102,24 +83,9 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
         }
     }
 
-    //устанавливаем значение и сохраняем показатели чекбоксов в боковом меню
-    private void itemClickChecked(MenuItem item, boolean isChecked) {
-        item.setChecked(!isChecked);
-        save();
-    }
-
-    private void load() {
-        itemHumidity.setChecked(Keys.getIsHumidity(this));
-        itemPressure.setChecked(Keys.getIsPressure(this));
-        itemWind.setChecked(Keys.getIsWind(this));
-    }
-
-    private void save() {
+    private void save(int position) {
         SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
         editor.putInt(Keys.KEY_POSITION, position);
-        editor.putBoolean(Keys.KEY_HUMIDITY, itemHumidity.isChecked());
-        editor.putBoolean(Keys.KEY_PRESSURE, itemPressure.isChecked());
-        editor.putBoolean(Keys.KEY_WIND, itemWind.isChecked());
         editor.apply();
     }
 
