@@ -16,11 +16,8 @@ public class DetailActivity extends AppCompatActivity {
         }
         //считываем значения из активити
         int position = getIntent().getIntExtra(Keys.KEY_POSITION, Keys.POSITION_DEFAULT);
-        boolean isHumidity = getIntent().getBooleanExtra(Keys.KEY_HUMIDITY, Keys.HUMIDITY_DEFAULT);
-        boolean isPressure = getIntent().getBooleanExtra(Keys.KEY_PRESSURE, Keys.PRESSURE_DEFAULT);
-        boolean isWind = getIntent().getBooleanExtra(Keys.KEY_WIND, Keys.WIND_DEFAULT);
         //наполняем и показываем фрагмент
-        DetailsFragment fragment = DetailsFragment.newInstance(position, isHumidity, isPressure, isWind);
+        DetailsFragment fragment = DetailsFragment.newInstance(position);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_details, fragment)
                 .commit();
