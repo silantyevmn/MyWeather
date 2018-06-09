@@ -25,4 +25,8 @@
     <string name="text_cancel">Отмена</string>
     <string name="text_dialog_edit_item">Введите названия города:</string>
     <string name="text_edit">редактировать</string>
+    <string name="text_turn_to_show_humidity">Включите, чтобы показать влажность</string>
+    <string name="text_turn_to_show_pressure">Включите, чтобы показать давление</string>
+    <string name="text_turn_to_show_wind">Включите, чтобы показать ветер</string>
+    <string name="setting">настройки</string>
 </resources>
