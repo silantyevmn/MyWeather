@@ -5,10 +5,10 @@
 
     <TextView
         android:id="@+id/text_view_city"
+        style="@style/MyStyle.TextSize20"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Москва"
-        android:textSize="@dimen/text_size_20"/>
+        android:hint="Москва" />
 
     <TextView
         android:id="@+id/text_view_time"
