@@ -16,19 +16,15 @@
 
             <TextView
                 android:id="@+id/text_view_city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/MyStyle.TextSize20"
                 android:layout_alignParentLeft="true"
-                android:hint="Moscow"
-                android:textSize="@dimen/text_size_20" />
+                android:hint="Moscow" />
 
             <TextView
                 android:id="@+id/text_view_temperature"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/MyStyle.TextSize20"
                 android:layout_alignParentRight="true"
-                android:hint="+25C"
-                android:textSize="@dimen/text_size_20" />
+                android:hint="+25C" />
 
             <ImageView
                 android:layout_width="wrap_content"
