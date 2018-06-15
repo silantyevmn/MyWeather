@@ -1,4 +1,4 @@
-package silantyevmn.ru.weather;
+package silantyevmn.ru.weather.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -13,6 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import silantyevmn.ru.weather.utility.City;
+import silantyevmn.ru.weather.utility.CityEmmiter;
+import silantyevmn.ru.weather.DialogEditItem;
+import silantyevmn.ru.weather.R;
 
 /**
  * Created by silan on 02.06.2018.

@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import silantyevmn.ru.weather.utility.City;
+
 /**
  * Created by silan on 07.06.2018.
  */

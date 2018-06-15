@@ -1,4 +1,4 @@
-package silantyevmn.ru.weather;
+package silantyevmn.ru.weather.fragment;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -14,6 +14,12 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import silantyevmn.ru.weather.utility.City;
+import silantyevmn.ru.weather.utility.CityEmmiter;
+import silantyevmn.ru.weather.DetailsRecyclerAdapter;
+import silantyevmn.ru.weather.utility.Keys;
+import silantyevmn.ru.weather.R;
 
 /**
  * Created by silan on 27.05.2018.

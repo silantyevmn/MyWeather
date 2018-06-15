@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/fragment_list"
-        android:name="silantyevmn.ru.weather.ListFragment"
+        android:name="silantyevmn.ru.weather.fragment.ListFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1">

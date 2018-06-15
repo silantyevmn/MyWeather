@@ -1,4 +1,4 @@
-package silantyevmn.ru.weather;
+package silantyevmn.ru.weather.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,6 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+
+import silantyevmn.ru.weather.R;
+import silantyevmn.ru.weather.fragment.DetailsFragment;
+import silantyevmn.ru.weather.fragment.ListFragment;
+import silantyevmn.ru.weather.utility.CityEmmiter;
+import silantyevmn.ru.weather.utility.Keys;
 
 public class MainActivity extends AppCompatActivity implements ListFragment.onClickCityListItem {
     private int position;
@@ -75,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
         int id = item.getItemId();
         switch (id) {
             case R.id.item_setting:{
-                startActivity(new Intent(MainActivity.this,MyPreferenceActivity.class));
+                startActivity(new Intent(MainActivity.this,SettingActivity.class));
                 return false;
             }
             default:

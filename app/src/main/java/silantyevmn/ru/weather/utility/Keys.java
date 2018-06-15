@@ -1,4 +1,4 @@
-package silantyevmn.ru.weather;
+package silantyevmn.ru.weather.utility;
 
 import android.app.Activity;
 import android.content.Context;

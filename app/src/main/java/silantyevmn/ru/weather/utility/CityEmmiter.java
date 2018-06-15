@@ -1,8 +1,8 @@
-package silantyevmn.ru.weather;
+package silantyevmn.ru.weather.utility;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.Set;
+
+import silantyevmn.ru.weather.utility.City;
 
 /**
  * Created by silan on 17.05.2018.

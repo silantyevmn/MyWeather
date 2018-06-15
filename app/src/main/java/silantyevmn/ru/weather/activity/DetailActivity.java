@@ -1,8 +1,12 @@
-package silantyevmn.ru.weather;
+package silantyevmn.ru.weather.activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import silantyevmn.ru.weather.R;
+import silantyevmn.ru.weather.fragment.DetailsFragment;
+import silantyevmn.ru.weather.utility.Keys;
 
 public class DetailActivity extends AppCompatActivity {
 
