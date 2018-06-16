@@ -1,4 +1,4 @@
-package silantyevmn.ru.weather;
+package silantyevmn.ru.weather.utility;
 
 import android.content.Context;
 
@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import silantyevmn.ru.weather.R;
 
 /**
  * Created by silan on 17.05.2018.
