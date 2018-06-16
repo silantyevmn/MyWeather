@@ -20,8 +20,8 @@ import android.widget.FrameLayout;
 import silantyevmn.ru.weather.R;
 import silantyevmn.ru.weather.fragment.DetailsFragment;
 import silantyevmn.ru.weather.fragment.ListFragment;
-import silantyevmn.ru.weather.utility.CityEmmiter;
-import silantyevmn.ru.weather.utility.Keys;
+import silantyevmn.ru.weather.utils.CityEmmiter;
+import silantyevmn.ru.weather.utils.Keys;
 
 import static android.content.DialogInterface.*;
 

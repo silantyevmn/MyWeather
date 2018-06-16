@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import silantyevmn.ru.weather.utility.City;
-import silantyevmn.ru.weather.utility.CityEmmiter;
+import silantyevmn.ru.weather.utils.City;
+import silantyevmn.ru.weather.utils.CityEmmiter;
 import silantyevmn.ru.weather.DialogEditItem;
 import silantyevmn.ru.weather.R;
 

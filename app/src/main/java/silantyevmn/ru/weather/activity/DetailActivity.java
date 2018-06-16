@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import silantyevmn.ru.weather.R;
 import silantyevmn.ru.weather.fragment.DetailsFragment;
-import silantyevmn.ru.weather.utility.Keys;
+import silantyevmn.ru.weather.utils.Keys;
 
 public class DetailActivity extends AppCompatActivity {
 
