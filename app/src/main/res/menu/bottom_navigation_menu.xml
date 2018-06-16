@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bottom_navigation_menu_day"
+        android:icon="@android:drawable/ic_menu_more"
+        android:title="@string/bottom_navigation_menu_title_day" />
+
+    <item
+        android:id="@+id/bottom_navigation_menu_week"
+        android:icon="@android:drawable/ic_menu_more"
+        android:title="@string/bottom_navigation_menu_title_week" />
+    <item
+        android:id="@+id/bottom_navigation_menu_month"
+        android:icon="@android:drawable/ic_menu_more"
+        android:title="@string/bottom_navigation_menu_title_month" />
+</menu>

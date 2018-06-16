@@ -35,4 +35,7 @@
     <string name="dialog_button_cancel">Cancel</string>
     <string name="nav_header_title">Weather studio</string>
     <string name="email">silantyevmn@yandex.ru</string>
+    <string name="bottom_navigation_menu_title_day">day</string>
+    <string name="bottom_navigation_menu_title_week">week</string>
+    <string name="bottom_navigation_menu_title_month">month</string>
 </resources>

@@ -1,7 +1,6 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
         style="CardViewStyleFragmentDetails"
@@ -47,7 +46,7 @@
 
                 <TextView
                     android:id="@+id/text_view_humidity"
-                    style="@style/MyStyle"  />
+                    style="@style/MyStyle" />
             </LinearLayout>
 
             <LinearLayout
@@ -62,7 +61,7 @@
 
                 <TextView
                     android:id="@+id/text_view_pressure"
-                    style="@style/MyStyle"  />
+                    style="@style/MyStyle" />
             </LinearLayout>
 
             <LinearLayout
@@ -77,10 +76,8 @@
 
                 <TextView
                     android:id="@+id/text_view_wind"
-                    style="@style/MyStyle"  />
+                    style="@style/MyStyle" />
             </LinearLayout>
         </LinearLayout>
-
     </android.support.v7.widget.CardView>
-
-</LinearLayout>
+</FrameLayout>
