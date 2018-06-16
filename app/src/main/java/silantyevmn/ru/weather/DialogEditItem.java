@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import silantyevmn.ru.weather.fragment.ListFragment;
-import silantyevmn.ru.weather.utility.CityEmmiter;
+import silantyevmn.ru.weather.utils.CityEmmiter;
 
 /**
  * Created by silan on 02.06.2018.
