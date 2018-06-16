@@ -1,9 +1,18 @@
 package silantyevmn.ru.weather.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -14,13 +23,18 @@ import silantyevmn.ru.weather.fragment.ListFragment;
 import silantyevmn.ru.weather.utility.CityEmmiter;
 import silantyevmn.ru.weather.utility.Keys;
 
-public class MainActivity extends AppCompatActivity implements ListFragment.onClickCityListItem {
-    private int position;
+import static android.content.DialogInterface.*;
+
+public class MainActivity extends AppCompatActivity implements ListFragment.onClickCityListItem,NavigationView.OnNavigationItemSelectedListener {
+    private DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //поддержка векторов для старых девайсов
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         if (savedInstanceState == null) {
             if (CityEmmiter.getCities() == null) {
@@ -29,6 +43,19 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
                 CityEmmiter.initNewCityParam(arrCity);
             }
         }
+        //
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        //
 
         int position = (savedInstanceState == null) ? Keys.POSITION_DEFAULT : Keys.getPosition(this);
         FrameLayout fragment2 = (FrameLayout) findViewById(R.id.fragment_details);
@@ -42,6 +69,26 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_details, detailsFragment)
                     .commit();
+        }
+    }
+
+    //обработка клавиши назад
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            builder.setCancelable(true);
+            builder.setTitle(R.string.dialog_title_exits);
+            builder.setPositiveButton(R.string.dialog_button_exit, new OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    MainActivity.this.finish();
+                }
+            });
+            builder.setNegativeButton(R.string.dialog_button_cancel, null);
+            builder.create().show();
         }
     }
 
@@ -95,4 +142,12 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
         editor.apply();
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.nav_tools: startActivity(new Intent(MainActivity.this,SettingActivity.class));
+        }
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
 }
