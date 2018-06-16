@@ -28,4 +28,11 @@
     <string name="text_turn_to_show_pressure">Turn, to show pressure</string>
     <string name="text_turn_to_show_wind">Turn, to show wind</string>
     <string name="setting">setting</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="dialog_title_exits">Do you really want to close the app?</string>
+    <string name="dialog_button_exit">Ок</string>
+    <string name="dialog_button_cancel">Cancel</string>
+    <string name="nav_header_title">Weather studio</string>
+    <string name="email">silantyevmn@yandex.ru</string>
 </resources>

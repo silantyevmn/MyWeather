@@ -29,4 +29,9 @@
     <string name="text_turn_to_show_pressure">Включите, чтобы показать давление</string>
     <string name="text_turn_to_show_wind">Включите, чтобы показать ветер</string>
     <string name="setting">настройки</string>
+    <string name="dialog_title_exits">Вы хотите закрыть приложение?</string>
+    <string name="dialog_button_exit">Ок</string>
+    <string name="dialog_button_cancel">Отмена</string>
+    <string name="nav_header_title">Weather studio</string>
+    <string name="email">silantyevmn@yandex.ru</string>
 </resources>

@@ -6,4 +6,6 @@
     <dimen name="text_size_20">20sp</dimen>
     <dimen name="padding10">10dp</dimen>
     <dimen name="padding5">5dp</dimen>
+    <dimen name="activity_vertical_margin">10dp</dimen>
+    <dimen name="activity_gorizontal_margin">10dp</dimen>
 </resources>
