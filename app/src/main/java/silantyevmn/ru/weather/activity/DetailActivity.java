@@ -2,6 +2,7 @@ package silantyevmn.ru.weather.activity;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
 import silantyevmn.ru.weather.R;
@@ -18,6 +19,10 @@ public class DetailActivity extends AppCompatActivity {
             finish();
             return;
         }
+        //добавляем в АппБар кнопку назад
+        ActionBar bar=getSupportActionBar();
+        bar.setDisplayHomeAsUpEnabled(true);
+
         //считываем значения из активити
         int position = getIntent().getIntExtra(Keys.KEY_POSITION, Keys.POSITION_DEFAULT);
         //наполняем и показываем фрагмент
