@@ -1,10 +1,7 @@
-package silantyevmn.ru.weather.utility;
+package silantyevmn.ru.weather.utils;
 
 import android.app.Activity;
 import android.content.Context;
-
-import java.util.HashSet;
-import java.util.Set;
 
 
 /**

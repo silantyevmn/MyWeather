@@ -1,10 +1,9 @@
-package silantyevmn.ru.weather.utility;
+package silantyevmn.ru.weather.utils;
 
 import android.content.Context;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 import silantyevmn.ru.weather.R;
