@@ -23,7 +23,7 @@ public class DetailsRecyclerAdapter extends RecyclerView.Adapter<DetailsRecycler
 
     public DetailsRecyclerAdapter(ArrayList<City> cities, int rLayout) {
         this.cities = cities;
-        this.rLayout=rLayout;
+        this.rLayout = rLayout;
     }
 
     @NonNull
@@ -43,39 +43,39 @@ public class DetailsRecyclerAdapter extends RecyclerView.Adapter<DetailsRecycler
     public int getItemCount() {
         return cities.size();
     }
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tvDate;
         TextView tvTemperature;
         TextView tvHumidity;
         TextView tvPressure;
         TextView tvWind;
-        LinearLayout layoutHumidity,layoutPressure,layoutWind;
+        LinearLayout layoutHumidity, layoutPressure, layoutWind;
         Context context;
 
         MyViewHolder(View itemView) {
             super(itemView);
-            context=itemView.getContext();
-            tvDate=(TextView) itemView.findViewById(R.id.text_view_date);
+            context = itemView.getContext();
+            tvDate = (TextView) itemView.findViewById(R.id.text_view_date);
             tvTemperature = (TextView) itemView.findViewById(R.id.text_view_temperature);
             tvHumidity = (TextView) itemView.findViewById(R.id.text_view_humidity);
             tvPressure = (TextView) itemView.findViewById(R.id.text_view_pressure);
             tvWind = (TextView) itemView.findViewById(R.id.text_view_wind);
-            layoutHumidity=itemView.findViewById(R.id.layout_humidity);
-            layoutPressure=itemView.findViewById(R.id.layout_pressure);
-            layoutWind=itemView.findViewById(R.id.layout_wind);
+            layoutHumidity = itemView.findViewById(R.id.layout_humidity);
+            layoutPressure = itemView.findViewById(R.id.layout_pressure);
+            layoutWind = itemView.findViewById(R.id.layout_wind);
         }
 
-        void bind(City city){
+        void bind(City city) {
             tvDate.setText(city.getCurrentDate("dd.MM"));
             tvTemperature.setText(city.getTemperature(context));
             tvHumidity.setText(city.getHumidity(context));
             tvPressure.setText(city.getPressure(context));
             tvWind.setText(city.getWind(context));
-            layoutHumidity.setVisibility(city.isHumidity()?View.VISIBLE:View.GONE);
-            layoutPressure.setVisibility(city.isPressure()?View.VISIBLE:View.GONE);
-            layoutWind.setVisibility(city.isWind()?View.VISIBLE:View.GONE);
+            layoutHumidity.setVisibility(city.isHumidity() ? View.VISIBLE : View.GONE);
+            layoutPressure.setVisibility(city.isPressure() ? View.VISIBLE : View.GONE);
+            layoutWind.setVisibility(city.isWind() ? View.VISIBLE : View.GONE);
         }
-
     }
 
     @Override

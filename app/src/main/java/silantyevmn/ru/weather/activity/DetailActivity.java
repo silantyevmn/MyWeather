@@ -20,7 +20,7 @@ public class DetailActivity extends AppCompatActivity {
             return;
         }
         //добавляем в АппБар кнопку назад
-        ActionBar bar=getSupportActionBar();
+        ActionBar bar = getSupportActionBar();
         bar.setDisplayHomeAsUpEnabled(true);
 
         //считываем значения из активити
