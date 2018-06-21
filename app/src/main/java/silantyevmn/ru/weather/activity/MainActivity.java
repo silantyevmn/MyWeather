@@ -23,9 +23,9 @@ import silantyevmn.ru.weather.fragment.ListFragment;
 import silantyevmn.ru.weather.utils.CityEmmiter;
 import silantyevmn.ru.weather.utils.Keys;
 
-import static android.content.DialogInterface.*;
+import static android.content.DialogInterface.OnClickListener;
 
-public class MainActivity extends AppCompatActivity implements ListFragment.onClickCityListItem,NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements ListFragment.onClickCityListItem, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
 
     @Override
@@ -56,11 +56,10 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         //
-
         int position = (savedInstanceState == null) ? Keys.POSITION_DEFAULT : Keys.getPosition(this);
-        FrameLayout fragment2 = (FrameLayout) findViewById(R.id.fragment_details);
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.fragment_details);
         //проверяем есть в активити фрагмент деталей погоды?
-        if (fragment2 != null) {
+        if (frameLayout != null) {
             //если есть, то показываем его
             DetailsFragment detailsFragment = DetailsFragment.newInstance(
                     //передаем во фрагмент значение из памяти приложения
@@ -78,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(true);
             builder.setTitle(R.string.dialog_title_exits);
             builder.setPositiveButton(R.string.dialog_button_exit, new OnClickListener() {
@@ -127,8 +126,8 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.item_setting:{
-                startActivity(new Intent(MainActivity.this,SettingActivity.class));
+            case R.id.item_setting: {
+                startActivity(new Intent(MainActivity.this, SettingActivity.class));
                 return false;
             }
             default:
@@ -144,10 +143,12 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.nav_tools: startActivity(new Intent(MainActivity.this,SettingActivity.class));
+        switch (item.getItemId()) {
+            case R.id.nav_tools:
+                startActivity(new Intent(MainActivity.this, SettingActivity.class));
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }
