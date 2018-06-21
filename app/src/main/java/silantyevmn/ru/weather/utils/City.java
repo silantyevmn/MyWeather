@@ -102,4 +102,8 @@ public class City {
     public String toString() {
         return String.format(Locale.getDefault(), "%s %s", name, temperature);
     }
+
+    public void setHumidity(int humidity) {
+        this.humidity = humidity;
+    }
 }
