@@ -14,10 +14,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import silantyevmn.ru.weather.utils.City;
-import silantyevmn.ru.weather.utils.CityEmmiter;
 import silantyevmn.ru.weather.DialogEditItem;
 import silantyevmn.ru.weather.R;
+import silantyevmn.ru.weather.utils.City;
+import silantyevmn.ru.weather.utils.CityEmmiter;
 
 /**
  * Created by silan on 02.06.2018.
