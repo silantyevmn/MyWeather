@@ -1,56 +1,84 @@
 package silantyevmn.ru.weather.fragment;
 
 import android.content.SharedPreferences;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import silantyevmn.ru.weather.DetailsRecyclerAdapter;
 import silantyevmn.ru.weather.R;
 import silantyevmn.ru.weather.utils.City;
 import silantyevmn.ru.weather.utils.CityEmmiter;
-import silantyevmn.ru.weather.utils.Keys;
-import silantyevmn.ru.weather.utils.SensorManagerData;
+import silantyevmn.ru.weather.utils.CityPreference;
+import silantyevmn.ru.weather.utils.WeatherDataLoader;
 
 /**
  * Created by silan on 27.05.2018.
  */
 
-public class DetailsFragment extends Fragment implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class DetailsFragment extends Fragment {
+    private LinearLayout layoutProgress;
+    private View layoutContainer;
     private RecyclerView recyclerView;
     private TextView tvDate;
     private TextView tvCity;
+    private TextView tvDescription;
+    private TextView tvTemperature;
+    private TextView tvIcon;
+    private TextView tvInfo;
     private City city;
     private boolean isHumidity;
     private boolean isPressure;
     private boolean isWind;
-    private int countDayWeather = 1; //Показ количество дней по умолчанию
-    private SensorManagerData sensorManagerData;
     private DetailsRecyclerAdapter adapter;
+    private final Handler handler = new Handler();
+    private Typeface weatherFont;
+
+    //скрываем и показываем контейнеры при загрузке из интернета
+    private void setVisibleContainer(boolean flag) {
+        if (flag) {
+            layoutContainer.setVisibility(View.VISIBLE);
+            layoutProgress.setVisibility(View.GONE);
+        } else {
+            layoutContainer.setVisibility(View.GONE);
+            layoutProgress.setVisibility(View.VISIBLE);
+        }
+
+    }
 
     //передаем аргументы(позицию) во фрагмент
     public static DetailsFragment newInstance(int position) {
         Bundle args = new Bundle();
-        args.putInt(Keys.KEY_POSITION, position);
+        args.putInt(CityPreference.KEY_POSITION, position);
         DetailsFragment fragment = new DetailsFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        weatherFont = Typeface.createFromAsset(getActivity().getAssets(), "fonts/weathericons.ttf");
     }
 
     @Nullable
@@ -60,16 +88,17 @@ public class DetailsFragment extends Fragment implements BottomNavigationView.On
         recyclerView = rootView.findViewById(R.id.recycler);
         tvCity = rootView.findViewById(R.id.text_view_city);
         tvDate = rootView.findViewById(R.id.text_view_time);
+        tvInfo = rootView.findViewById(R.id.text_view_info);
+        tvDescription = rootView.findViewById(R.id.text_view_description);
+        tvTemperature = rootView.findViewById(R.id.text_view_temperature);
+        tvIcon = rootView.findViewById(R.id.text_view_icon);
+        tvIcon.setTypeface(weatherFont);
+        //контейнеры
+        layoutProgress = rootView.findViewById(R.id.linear_layout_progress);
+        layoutContainer = rootView.findViewById(R.id.linear_layout_data);
+        //показыаваем контейнер загрузки
+        setVisibleContainer(false);
 
-        //устанавливаем сенсоры
-        sensorManagerData = new SensorManagerData(getContext());
-        // Регистрируем слушатель датчиков
-        sensorManagerData.getSensorManager().registerListener(listener, sensorManagerData.getSensorTemperature(), sensorManagerData.getSensorManager().SENSOR_DELAY_NORMAL);
-        sensorManagerData.getSensorManager().registerListener(listener, sensorManagerData.getSensorHumidity(), sensorManagerData.getSensorManager().SENSOR_DELAY_NORMAL);
-
-        //добавляем BottomNavigationView
-        BottomNavigationView navigation = (BottomNavigationView) rootView.findViewById(R.id.bottom_navigation);
-        navigation.setOnNavigationItemSelectedListener(this);
         return rootView;
     }
 
@@ -81,22 +110,28 @@ public class DetailsFragment extends Fragment implements BottomNavigationView.On
     }
 
     public void showFragment(Bundle bundle) {
-        int position = bundle.getInt(Keys.KEY_POSITION, Keys.POSITION_DEFAULT);
+        int position = bundle.getInt(CityPreference.KEY_POSITION, CityPreference.POSITION_DEFAULT);
+        //запишем позицию
+        CityPreference preference = new CityPreference(getActivity());
+        preference.setPosition(position);
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        isHumidity = prefs.getBoolean(Keys.KEY_HUMIDITY, Keys.HUMIDITY_DEFAULT);
-        isPressure = prefs.getBoolean(Keys.KEY_PRESSURE, Keys.PRESSURE_DEFAULT);
-        isWind = prefs.getBoolean(Keys.KEY_WIND, Keys.WIND_DEFAULT);
+        isHumidity = prefs.getBoolean(CityPreference.KEY_HUMIDITY, CityPreference.HUMIDITY_DEFAULT);
+        isPressure = prefs.getBoolean(CityPreference.KEY_PRESSURE, CityPreference.PRESSURE_DEFAULT);
+        isWind = prefs.getBoolean(CityPreference.KEY_WIND, CityPreference.WIND_DEFAULT);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
-
         city = CityEmmiter.getCities().get(position);
+        //загружаем данные погоды из интернета
+        updateWeatherData(city.getName().toLowerCase(Locale.US));
+
         tvCity.setText(city.getName());
         city.setCurrentDate(Calendar.getInstance());
         tvDate.setText(city.getCurrentDate("EEEE, dd MMM yyyy, HH:mm"));
 
         //устанавливаем адаптер
-        initAdapter(newArrayCity(countDayWeather));
+        initAdapter(newArrayCity());
 
     }
 
@@ -105,73 +140,115 @@ public class DetailsFragment extends Fragment implements BottomNavigationView.On
         recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.bottom_navigation_menu_day: {
-                countDayWeather = 1;
-                initAdapter(newArrayCity(countDayWeather));
-                return true;
-            }
-            case R.id.bottom_navigation_menu_week: {
-                countDayWeather = 7;
-                initAdapter(newArrayCity(countDayWeather));
-                return true;
-            }
-            case R.id.bottom_navigation_menu_month: {
-                countDayWeather = 30;
-                initAdapter(newArrayCity(countDayWeather));
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private ArrayList<City> newArrayCity(int count) {
+    private ArrayList<City> newArrayCity() {
         ArrayList<City> cities = new ArrayList<>();
         city.setCurrentDate(Calendar.getInstance());
         city.setIsHumidity(isHumidity);
         city.setIsPressure(isPressure);
         city.setIsWind(isWind);
-        for (int i = 0; i < count; i++) {
-            cities.add(city);
-        }
+        cities.add(city);
         return cities;
     }
 
-    //слушатель датчиков
-    private SensorEventListener listener = new SensorEventListener() {
-        @Override
-        public void onSensorChanged(SensorEvent sensorEvent) {
-            if (sensorEvent.values.length==0){
-                return;
+    //загрузка данных из интернета
+    private void updateWeatherData(final String city) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final JSONObject json = WeatherDataLoader.getJSONData(getContext(), city);
+                if (json == null) {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            showError(getString(R.string.error_json_null));
+                        }
+                    });
+                } else {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            renderWeather(json);
+                        }
+                    });
+                }
             }
-            //если датчик температуры
-            if (sensorEvent.sensor.equals(sensorManagerData.getSensorTemperature())) {
-                sensorManagerData.setTemperature((int) sensorEvent.values[0]);
-                // иначе датчик влажности
-            } else if (sensorEvent.sensor.equals(sensorManagerData.getSensorHumidity())) {
-                sensorManagerData.setHumidity((int) sensorEvent.values[0]);
-            }
-            //обновляем показатели сенсоров
-            updateRecycler(sensorManagerData.getTemperature(), sensorManagerData.getHumidity());
-        }
-
-        @Override
-        public void onAccuracyChanged(Sensor sensor, int i) {
-
-        }
-    };
-
-    public void updateRecycler(int temperature, int humidity) {
-        city.setTemperature(temperature);
-        city.setHumidity(humidity);
-        initAdapter(newArrayCity(countDayWeather));
+        }).start();
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        sensorManagerData.getSensorManager().unregisterListener(listener);
+    private void renderWeather(JSONObject json) {
+        Log.d("Json", json.toString());
+        try {
+            String name = json.getString("name").toLowerCase();
+            JSONObject details = json.getJSONArray("weather").getJSONObject(0);
+            JSONObject main = json.getJSONObject("main");
+            tvDescription.setText(details.getString("description"));
+            city.setTemperature(main.getInt("temp"));
+            tvTemperature.setText(city.getTemperature(getContext()));
+            city.setPressure(main.getInt("pressure"));
+            city.setHumidity(main.getInt("humidity"));
+            JSONObject wind = json.getJSONObject("wind");
+            city.setWind(wind.getInt("speed"));
+
+            setWeatherIcon(details.getInt("id"), json.getJSONObject("sys").getLong("sunrise") * 1000,
+                    json.getJSONObject("sys").getLong("sunset") * 1000);
+
+            initAdapter(newArrayCity());
+            setVisibleContainer(true);
+        } catch (Exception e) {
+            showError(e.getMessage());
+        }
+
+    }
+
+    private void setWeatherIcon(int actualId, long sunrise, long sunset) {
+        int id = actualId / 100;
+        String icon = "";
+        if (actualId == 800) {
+            long currentTime = new Date().getTime();
+            if (currentTime >= sunrise && currentTime < sunset) {
+                icon = getActivity().getString(R.string.weather_sunny);
+            } else {
+                icon = getActivity().getString(R.string.weather_clear_night);
+            }
+        } else {
+            Log.d("Json_id", "id" + id);
+            switch (id) {
+                case 2: {
+                    icon = getActivity().getString(R.string.weather_thunder);
+                    break;
+                }
+                case 3: {
+                    icon = getActivity().getString(R.string.weather_drizzle);
+                    break;
+                }
+                case 5: {
+                    icon = getActivity().getString(R.string.weather_rainy);
+                    break;
+                }
+                case 6: {
+                    icon = getActivity().getString(R.string.weather_snowy);
+                    break;
+                }
+                case 7: {
+                    icon = getActivity().getString(R.string.weather_foggy);
+                    break;
+                }
+                case 8: {
+                    icon = getActivity().getString(R.string.weather_cloudy);
+                    break;
+                }
+                default:
+                    break;
+
+            }
+        }
+        tvIcon.setText(icon);
+    }
+
+    private void showError(String text) {
+        ProgressBar progressBar = getActivity().findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.GONE);
+        tvInfo.setText(text);
+        Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
     }
 }
