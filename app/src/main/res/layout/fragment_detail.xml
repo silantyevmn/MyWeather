@@ -20,14 +20,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Идет загрузка с погодного сервера..." />
+            android:text="@string/text_info_progress_internet" />
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/linear_layout_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/text_view_city"
@@ -35,17 +35,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_marginTop="@dimen/margin10"
             android:hint="Москва"
-            android:padding="10dp" />
+            android:paddingStart="@dimen/margin10" />
 
         <TextView
             android:id="@+id/text_view_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_view_city"
-            android:textSize="12sp"
-            android:paddingLeft="10dp"
-            android:hint="Вторник, 06.06.2018 12:00" />
+            android:hint="Вторник, 06.06.2018 12:00"
+            android:paddingLeft="@dimen/margin10"
+            android:textSize="@dimen/text_size_12" />
 
         <TextView
             android:id="@+id/text_view_icon"
@@ -53,8 +54,8 @@
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/text_view_temperature"
             android:hint="+"
-            android:padding="10dp"
-            android:textSize="20sp" />
+            android:padding="@dimen/margin10"
+            android:textSize="@dimen/text_size_20" />
 
         <TextView
             android:id="@+id/text_view_temperature"
@@ -62,8 +63,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:hint="+25"
-            android:padding="10dp" />
+            android:layout_marginRight="@dimen/margin10"
+            android:layout_marginTop="@dimen/margin10"
+            android:hint="+25" />
 
         <TextView
             android:id="@+id/text_view_description"
@@ -71,14 +73,15 @@
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/text_view_temperature"
             android:layout_below="@+id/text_view_temperature"
-            android:textSize="12sp"
-            android:hint="Небо чистое" />
+            android:hint="Небо чистое"
+            android:textSize="@dimen/text_size_12" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/text_view_time" />
+            android:layout_below="@+id/text_view_time"
+            android:layout_marginTop="@dimen/margin10" />
 
     </RelativeLayout>
 </FrameLayout>

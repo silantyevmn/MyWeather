@@ -37,6 +37,7 @@ import silantyevmn.ru.weather.utils.WeatherDataLoader;
  */
 
 public class DetailsFragment extends Fragment {
+    private final String TAG_FONT="fonts/weathericons.ttf";
     private LinearLayout layoutProgress;
     private View layoutContainer;
     private RecyclerView recyclerView;
@@ -78,7 +79,7 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        weatherFont = Typeface.createFromAsset(getActivity().getAssets(), "fonts/weathericons.ttf");
+        weatherFont = Typeface.createFromAsset(getActivity().getAssets(), TAG_FONT);
     }
 
     @Nullable
@@ -188,7 +189,7 @@ public class DetailsFragment extends Fragment {
             city.setHumidity(main.getInt("humidity"));
             JSONObject wind = json.getJSONObject("wind");
             city.setWind(wind.getInt("speed"));
-
+            //найдем и покажем иконку погоды
             setWeatherIcon(details.getInt("id"), json.getJSONObject("sys").getLong("sunrise") * 1000,
                     json.getJSONObject("sys").getLong("sunset") * 1000);
 
