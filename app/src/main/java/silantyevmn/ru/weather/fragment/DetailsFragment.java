@@ -30,6 +30,7 @@ import silantyevmn.ru.weather.R;
 import silantyevmn.ru.weather.utils.City;
 import silantyevmn.ru.weather.utils.CityEmmiter;
 import silantyevmn.ru.weather.utils.CityPreference;
+import silantyevmn.ru.weather.utils.RequestMaker;
 import silantyevmn.ru.weather.utils.WeatherDataLoader;
 
 /**
@@ -37,16 +38,16 @@ import silantyevmn.ru.weather.utils.WeatherDataLoader;
  */
 
 public class DetailsFragment extends Fragment {
-    private final String TAG_FONT="fonts/weathericons.ttf";
+    private final String FONT ="fonts/weathericons.ttf";
     private LinearLayout layoutProgress;
     private View layoutContainer;
     private RecyclerView recyclerView;
     private TextView tvDate;
     private TextView tvCity;
-    private TextView tvDescription;
+    //private TextView tvDescription;
     private TextView tvTemperature;
     private TextView tvIcon;
-    private TextView tvInfo;
+    private TextView tvStatus;
     private City city;
     private boolean isHumidity;
     private boolean isPressure;
@@ -55,6 +56,14 @@ public class DetailsFragment extends Fragment {
     private final Handler handler = new Handler();
     private Typeface weatherFont;
 
+    //передаем аргументы(позицию) во фрагмент
+    public static DetailsFragment newInstance(int position) {
+        Bundle args = new Bundle();
+        args.putInt(CityPreference.KEY_POSITION, position);
+        DetailsFragment fragment = new DetailsFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
     //скрываем и показываем контейнеры при загрузке из интернета
     private void setVisibleContainer(boolean flag) {
         if (flag) {
@@ -67,19 +76,30 @@ public class DetailsFragment extends Fragment {
 
     }
 
-    //передаем аргументы(позицию) во фрагмент
-    public static DetailsFragment newInstance(int position) {
-        Bundle args = new Bundle();
-        args.putInt(CityPreference.KEY_POSITION, position);
-        DetailsFragment fragment = new DetailsFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
+    // Создадим объект класса делателя запросов и налету сделаем анонимный класс слушателя
+    final RequestMaker requestMaker = new RequestMaker(new RequestMaker.OnRequestListener() {
+        // Обновим прогресс
+        @Override
+        public void onStatusProgress(String updateProgress) {
+            tvStatus.setText(updateProgress);
+        }
+        // по окончании загрузки вызовем этот метод, который передаст JSON
+        @Override
+        public void onComplete(String result) {
+            try {
+                JSONObject jsonObject=new JSONObject(result.toString());
+                renderWeather(jsonObject);
+            } catch (Exception e){
+                showError(e.getMessage());
+            }
+
+        }
+    });
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        weatherFont = Typeface.createFromAsset(getActivity().getAssets(), TAG_FONT);
+        weatherFont = Typeface.createFromAsset(getActivity().getAssets(), FONT);
     }
 
     @Nullable
@@ -89,8 +109,8 @@ public class DetailsFragment extends Fragment {
         recyclerView = rootView.findViewById(R.id.recycler);
         tvCity = rootView.findViewById(R.id.text_view_city);
         tvDate = rootView.findViewById(R.id.text_view_time);
-        tvInfo = rootView.findViewById(R.id.text_view_info);
-        tvDescription = rootView.findViewById(R.id.text_view_description);
+        tvStatus = rootView.findViewById(R.id.text_view_info);
+        //tvDescription = rootView.findViewById(R.id.text_view_description);
         tvTemperature = rootView.findViewById(R.id.text_view_temperature);
         tvIcon = rootView.findViewById(R.id.text_view_icon);
         tvIcon.setTypeface(weatherFont);
@@ -124,8 +144,9 @@ public class DetailsFragment extends Fragment {
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
         city = CityEmmiter.getCities().get(position);
-        //загружаем данные погоды из интернета
-        updateWeatherData(city.getName().toLowerCase(Locale.US));
+        //загружаем данные погоды из интернета todo пробуем через AsyncTask
+        requestMaker.make(city.getName().toLowerCase(Locale.US));
+        //updateWeatherData(city.getName().toLowerCase(Locale.US));
 
         tvCity.setText(city.getName());
         city.setCurrentDate(Calendar.getInstance());
@@ -182,7 +203,7 @@ public class DetailsFragment extends Fragment {
             String name = json.getString("name").toLowerCase();
             JSONObject details = json.getJSONArray("weather").getJSONObject(0);
             JSONObject main = json.getJSONObject("main");
-            tvDescription.setText(details.getString("description"));
+            //tvDescription.setText(details.getString("description"));
             city.setTemperature(main.getInt("temp"));
             tvTemperature.setText(city.getTemperature(getContext()));
             city.setPressure(main.getInt("pressure"));
@@ -249,7 +270,7 @@ public class DetailsFragment extends Fragment {
     private void showError(String text) {
         ProgressBar progressBar = getActivity().findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
-        tvInfo.setText(text);
+        tvStatus.setText(text);
         Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
     }
 }
