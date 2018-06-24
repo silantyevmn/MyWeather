@@ -52,29 +52,30 @@
             android:id="@+id/text_view_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/recycler"
             android:layout_toStartOf="@+id/text_view_temperature"
             android:hint="+"
             android:padding="@dimen/margin10"
-            android:textSize="@dimen/text_size_20" />
+            android:textSize="@dimen/text_size_25" />
 
         <TextView
             android:id="@+id/text_view_temperature"
-            style="@style/MyStyle.TextSize20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/margin10"
             android:layout_marginTop="@dimen/margin10"
+            android:textSize="@dimen/text_size_30"
             android:hint="+25" />
 
-        <TextView
+       <!-- <TextView
             android:id="@+id/text_view_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/text_view_temperature"
             android:layout_below="@+id/text_view_temperature"
             android:hint="Небо чистое"
-            android:textSize="@dimen/text_size_12" />
+            android:textSize="@dimen/text_size_12" />-->
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler"
