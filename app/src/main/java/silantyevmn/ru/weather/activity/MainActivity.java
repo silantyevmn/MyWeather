@@ -2,7 +2,6 @@ package silantyevmn.ru.weather.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -19,14 +18,15 @@ import android.widget.FrameLayout;
 
 import silantyevmn.ru.weather.R;
 import silantyevmn.ru.weather.fragment.DetailsFragment;
-import silantyevmn.ru.weather.fragment.ListFragment;
+import silantyevmn.ru.weather.fragment.MainFragment;
 import silantyevmn.ru.weather.utils.CityEmmiter;
-import silantyevmn.ru.weather.utils.Keys;
+import silantyevmn.ru.weather.utils.CityPreference;
 
 import static android.content.DialogInterface.OnClickListener;
 
-public class MainActivity extends AppCompatActivity implements ListFragment.onClickCityListItem, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements MainFragment.onClickCityListItem, NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
+    private CityPreference preference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,8 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         //
-        int position = (savedInstanceState == null) ? Keys.POSITION_DEFAULT : Keys.getPosition(this);
+        preference=new CityPreference(this);
+        int position = preference.getPosition();
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.fragment_details);
         //проверяем есть в активити фрагмент деталей погоды?
         if (frameLayout != null) {
@@ -93,7 +94,8 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
 
     @Override
     public void onClickListItem(int position) {
-        save(position);
+        //записываем позицию
+        preference.setPosition(position);
         // Получаем ссылку на второй фрагмент по ID
         FrameLayout fragment = (FrameLayout) findViewById(R.id.fragment_details);
         // если фрагмента не существует
@@ -101,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
             // запускаем активность, если город нашелся
             if (position != -1) {
                 Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                intent.putExtra(Keys.KEY_POSITION, position);
+                intent.putExtra(preference.KEY_POSITION, position);
                 startActivity(intent);
             }
         } else {
@@ -133,12 +135,6 @@ public class MainActivity extends AppCompatActivity implements ListFragment.onCl
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void save(int position) {
-        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-        editor.putInt(Keys.KEY_POSITION, position);
-        editor.apply();
     }
 
     @Override
