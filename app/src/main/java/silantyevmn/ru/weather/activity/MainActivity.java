@@ -97,9 +97,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onCl
         //записываем позицию
         preference.setPosition(position);
         // Получаем ссылку на второй фрагмент по ID
-        FrameLayout fragment = (FrameLayout) findViewById(R.id.fragment_details);
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.fragment_details);
         // если фрагмента не существует
-        if (fragment == null) {
+        if (frameLayout == null) {
             // запускаем активность, если город нашелся
             if (position != -1) {
                 Intent intent = new Intent(MainActivity.this, DetailActivity.class);
