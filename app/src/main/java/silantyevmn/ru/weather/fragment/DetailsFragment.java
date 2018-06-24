@@ -55,6 +55,7 @@ public class DetailsFragment extends Fragment {
     private DetailsRecyclerAdapter adapter;
     private final Handler handler = new Handler();
     private Typeface weatherFont;
+    private ProgressBar progressBar;
 
     //передаем аргументы(позицию) во фрагмент
     public static DetailsFragment newInstance(int position) {
@@ -114,6 +115,7 @@ public class DetailsFragment extends Fragment {
         tvTemperature = rootView.findViewById(R.id.text_view_temperature);
         tvIcon = rootView.findViewById(R.id.text_view_icon);
         tvIcon.setTypeface(weatherFont);
+        progressBar=rootView.findViewById(R.id.progressBar);
         //контейнеры
         layoutProgress = rootView.findViewById(R.id.linear_layout_progress);
         layoutContainer = rootView.findViewById(R.id.linear_layout_data);
@@ -218,7 +220,7 @@ public class DetailsFragment extends Fragment {
             initAdapter(newArrayCity());
             setVisibleContainer(true);
         } catch (Exception e) {
-            showError(e.getMessage());
+            showError(e.getMessage().toString());
         }
 
     }
@@ -269,9 +271,7 @@ public class DetailsFragment extends Fragment {
     }
 
     private void showError(String text) {
-        ProgressBar progressBar = getActivity().findViewById(R.id.progressBar);
         progressBar.setVisibility(View.GONE);
         tvStatus.setText(text);
-        Toast.makeText(getActivity(), text, Toast.LENGTH_LONG).show();
     }
 }
