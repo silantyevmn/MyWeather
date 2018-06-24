@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
-import silantyevmn.ru.weather.fragment.ListFragment;
+import silantyevmn.ru.weather.fragment.MainFragment;
 import silantyevmn.ru.weather.utils.CityEmmiter;
 
 /**
@@ -21,8 +21,8 @@ public class DialogEditItem {
         void onUpdateAdapterItem(int position);
     }
 
-    public DialogEditItem(ListFragment listFragment) {
-        listener = listFragment;
+    public DialogEditItem(MainFragment mainFragment) {
+        listener = mainFragment;
     }
 
     public void editItem(Context context, String name, int position) {
