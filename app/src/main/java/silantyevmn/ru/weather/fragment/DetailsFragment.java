@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -56,6 +57,7 @@ public class DetailsFragment extends Fragment {
     private final Handler handler = new Handler();
     private Typeface weatherFont;
     private ProgressBar progressBar;
+    private ImageView imageIcon;
 
     //передаем аргументы(позицию) во фрагмент
     public static DetailsFragment newInstance(int position) {
@@ -69,9 +71,11 @@ public class DetailsFragment extends Fragment {
     private void setVisibleContainer(boolean flag) {
         if (flag) {
             layoutContainer.setVisibility(View.VISIBLE);
+            imageIcon.setVisibility(View.VISIBLE);
             layoutProgress.setVisibility(View.GONE);
         } else {
             layoutContainer.setVisibility(View.GONE);
+            imageIcon.setVisibility(View.GONE);
             layoutProgress.setVisibility(View.VISIBLE);
         }
 
@@ -116,6 +120,8 @@ public class DetailsFragment extends Fragment {
         tvIcon = rootView.findViewById(R.id.text_view_icon);
         tvIcon.setTypeface(weatherFont);
         progressBar=rootView.findViewById(R.id.progressBar);
+        imageIcon=rootView.findViewById(R.id.image_icon);
+
         //контейнеры
         layoutProgress = rootView.findViewById(R.id.linear_layout_progress);
         layoutContainer = rootView.findViewById(R.id.linear_layout_data);
@@ -228,12 +234,15 @@ public class DetailsFragment extends Fragment {
     private void setWeatherIcon(int actualId, long sunrise, long sunset) {
         int id = actualId / 100;
         String icon = "";
+
         if (actualId == 800) {
             long currentTime = new Date().getTime();
             if (currentTime >= sunrise && currentTime < sunset) {
                 icon = getActivity().getString(R.string.weather_sunny);
+                imageIcon.setImageResource(R.drawable.appbar_day);
             } else {
                 icon = getActivity().getString(R.string.weather_clear_night);
+                imageIcon.setImageResource(R.drawable.appbar_night);
             }
         } else {
             Log.d("Json_id", "id" + id);
