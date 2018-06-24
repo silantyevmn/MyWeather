@@ -144,7 +144,8 @@ public class DetailsFragment extends Fragment {
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
         city = CityEmmiter.getCities().get(position);
-        //загружаем данные погоды из интернета todo пробуем через AsyncTask
+        //загружаем данные погоды из интернета
+        // todo пробуем через AsyncTask
         requestMaker.make(city.getName().toLowerCase(Locale.US));
         //updateWeatherData(city.getName().toLowerCase(Locale.US));
 
