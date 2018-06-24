@@ -2,10 +2,11 @@
 <resources>
     <string-array name="city_selection">
         <item>Moscow</item>
-        <item>Saint-Petersburg</item>
+        <item>Sankt-Peterburg</item>
         <item>Novosibirsk</item>
         <item>Yekaterinburg</item>
         <item>Nizhny Novgorod</item>
+        <item>Saratov</item>
     </string-array>
 
 </resources>
