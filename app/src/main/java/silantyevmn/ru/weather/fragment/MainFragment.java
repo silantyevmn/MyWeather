@@ -23,7 +23,7 @@ import silantyevmn.ru.weather.utils.CityEmmiter;
  * Created by silan on 02.06.2018.
  */
 
-public class ListFragment extends Fragment implements DialogEditItem.onUpdateAdapter {
+public class MainFragment extends Fragment implements DialogEditItem.onUpdateAdapter {
     private onClickCityListItem listener;
     private MyAdapter adapter;
 
@@ -65,7 +65,6 @@ public class ListFragment extends Fragment implements DialogEditItem.onUpdateAda
     // Класс, который содержит в себе все элементы списка
     private class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
         private TextView cityNameTextView;
-        private TextView cityTemperatureTextView;
         //обработчик на контекстное меню
         private final MenuItem.OnMenuItemClickListener onEditMenu = new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -94,7 +93,6 @@ public class ListFragment extends Fragment implements DialogEditItem.onUpdateAda
             super(inflater.inflate(R.layout.fragment_list_item, parent, false));
             //установим обработчик нажатия на список
             cityNameTextView = itemView.findViewById(R.id.text_view_city);
-            cityTemperatureTextView = itemView.findViewById(R.id.text_view_temperature);
             itemView.setOnClickListener(this);
             //регистрируем контекст_меню
             registerForContextMenu(itemView);
@@ -103,7 +101,6 @@ public class ListFragment extends Fragment implements DialogEditItem.onUpdateAda
 
         void bind(City city) {
             cityNameTextView.setText(city.getName());
-            cityTemperatureTextView.setText(city.getTemperature(getContext()));
         }
 
         @Override
@@ -119,11 +116,6 @@ public class ListFragment extends Fragment implements DialogEditItem.onUpdateAda
             contextMenu.findItem(R.id.item_delete).setOnMenuItemClickListener(onEditMenu);
             contextMenu.findItem(R.id.item_menu_edit).setOnMenuItemClickListener(onEditMenu);
         }
-    }
-
-    //обработка нажатий на список, передача position
-    private void setPositionOnActivity(int position) {
-        listener.onClickListItem(position);
     }
 
     // Адаптер для RecyclerView
@@ -146,6 +138,11 @@ public class ListFragment extends Fragment implements DialogEditItem.onUpdateAda
             return CityEmmiter.getCities().size();
         }
 
+    }
+
+    //обработка нажатий на список, передача position
+    private void setPositionOnActivity(int position) {
+        listener.onClickListItem(position);
     }
 
     //добавление города в список

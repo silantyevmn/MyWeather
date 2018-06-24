@@ -106,4 +106,12 @@ public class City {
     public void setHumidity(int humidity) {
         this.humidity = humidity;
     }
+
+    public void setPressure(int pressure) {
+        this.pressure=pressure;
+    }
+
+    public void setWind(int wind) {
+        this.wind=wind;
+    }
 }

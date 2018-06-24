@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import silantyevmn.ru.weather.R;
 import silantyevmn.ru.weather.fragment.DetailsFragment;
-import silantyevmn.ru.weather.utils.Keys;
+import silantyevmn.ru.weather.utils.CityPreference;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -22,9 +22,8 @@ public class DetailActivity extends AppCompatActivity {
         //добавляем в АппБар кнопку назад
         ActionBar bar = getSupportActionBar();
         bar.setDisplayHomeAsUpEnabled(true);
-
         //считываем значения из активити
-        int position = getIntent().getIntExtra(Keys.KEY_POSITION, Keys.POSITION_DEFAULT);
+        int position = getIntent().getIntExtra(CityPreference.KEY_POSITION,CityPreference.POSITION_DEFAULT);
         //наполняем и показываем фрагмент
         DetailsFragment fragment = DetailsFragment.newInstance(position);
         getSupportFragmentManager().beginTransaction()

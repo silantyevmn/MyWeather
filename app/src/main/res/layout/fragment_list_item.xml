@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         app:cardUseCompatPadding="true">
 
-        <RelativeLayout
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/padding15">
@@ -19,20 +19,6 @@
                 style="@style/MyStyle.TextSize20"
                 android:layout_alignParentLeft="true"
                 android:hint="Moscow" />
-
-            <TextView
-                android:id="@+id/text_view_temperature"
-                style="@style/MyStyle.TextSize20"
-                android:layout_alignParentRight="true"
-                android:hint="+25C" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/text_view_temperature"
-                android:layout_alignParentTop="true"
-                android:layout_toStartOf="@+id/text_view_temperature"
-                android:src="@drawable/ic_temperature" />
-        </RelativeLayout>
+        </FrameLayout>
     </android.support.v7.widget.CardView>
 </FrameLayout>
