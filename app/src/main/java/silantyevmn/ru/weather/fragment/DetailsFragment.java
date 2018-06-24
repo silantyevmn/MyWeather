@@ -71,9 +71,11 @@ public class DetailsFragment extends Fragment {
     private void setVisibleContainer(boolean flag) {
         if (flag) {
             layoutContainer.setVisibility(View.VISIBLE);
+            imageIcon.setVisibility(View.VISIBLE);
             layoutProgress.setVisibility(View.GONE);
         } else {
             layoutContainer.setVisibility(View.GONE);
+            imageIcon.setVisibility(View.GONE);
             layoutProgress.setVisibility(View.VISIBLE);
         }
 
