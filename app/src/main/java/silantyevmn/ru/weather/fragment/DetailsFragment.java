@@ -141,8 +141,7 @@ public class DetailsFragment extends Fragment {
     public void showFragment(Bundle bundle) {
         int position = bundle.getInt(CityPreference.KEY_POSITION, CityPreference.POSITION_DEFAULT);
         //запишем позицию
-        CityPreference preference = new CityPreference(getActivity());
-        preference.setPosition(position);
+        CityPreference.getPreference(getContext()).setPosition(position);
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         isHumidity = prefs.getBoolean(CityPreference.KEY_HUMIDITY, CityPreference.HUMIDITY_DEFAULT);
