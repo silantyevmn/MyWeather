@@ -1,15 +1,16 @@
 package silantyevmn.ru.weather.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 /**
  * Created by silan on 23.06.2018.
  */
 
 public class CityPreference {
+    private static CityPreference cityPreference;
+    private final String SHARED_PREFERENCES_NAME = "setting";
     public static final boolean HUMIDITY_DEFAULT = false;
     public static final boolean PRESSURE_DEFAULT = false;
     public static final boolean WIND_DEFAULT = false;
@@ -21,16 +22,23 @@ public class CityPreference {
 
     private SharedPreferences sharedPreferences;
 
-    public CityPreference(Activity activity){
-        sharedPreferences=activity.getPreferences(Activity.MODE_PRIVATE);
+    private CityPreference(Context context) {
+        sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES_NAME, Activity.MODE_PRIVATE);
     }
 
-    public int getPosition(){
-        return sharedPreferences.getInt(KEY_POSITION,POSITION_DEFAULT);
+    public static CityPreference getPreference(Context context) {
+        if (cityPreference == null) {
+            cityPreference = new CityPreference(context);
+        }
+        return cityPreference;
     }
 
-    public void setPosition(int position){
-        sharedPreferences.edit().putInt(KEY_POSITION,position).apply();
+    public int getPosition() {
+        return sharedPreferences.getInt(KEY_POSITION, POSITION_DEFAULT);
+    }
+
+    public void setPosition(int position) {
+        sharedPreferences.edit().putInt(KEY_POSITION, position).apply();
     }
 
 }
