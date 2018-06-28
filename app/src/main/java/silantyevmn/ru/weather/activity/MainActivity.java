@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onCl
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         //
-        preference=new CityPreference(this);
+        preference = CityPreference.getPreference(this);
         int position = preference.getPosition();
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.fragment_details);
         //проверяем есть в активити фрагмент деталей погоды?
