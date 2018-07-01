@@ -1,4 +1,4 @@
-package silantyevmn.ru.weather.utils.json;
+package silantyevmn.ru.weather.utils.json.jsonBase;
 
 import android.content.Context;
 
