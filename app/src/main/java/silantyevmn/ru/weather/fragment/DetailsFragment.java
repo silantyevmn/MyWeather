@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +16,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONObject;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 import silantyevmn.ru.weather.DetailsRecyclerAdapter;
@@ -31,21 +28,19 @@ import silantyevmn.ru.weather.R;
 import silantyevmn.ru.weather.utils.City;
 import silantyevmn.ru.weather.utils.CityEmmiter;
 import silantyevmn.ru.weather.utils.CityPreference;
-import silantyevmn.ru.weather.utils.RequestMaker;
-import silantyevmn.ru.weather.utils.WeatherDataLoader;
+import silantyevmn.ru.weather.utils.json.OpenWeatherRetrofit;
 
 /**
  * Created by silan on 27.05.2018.
  */
 
-public class DetailsFragment extends Fragment {
-    private final String FONT ="fonts/weathericons.ttf";
+public class DetailsFragment extends Fragment implements OpenWeatherRetrofit.onShowWeather {
+    private final String FONT = "fonts/weathericons.ttf";
     private LinearLayout layoutProgress;
     private View layoutContainer;
     private RecyclerView recyclerView;
     private TextView tvDate;
     private TextView tvCity;
-    //private TextView tvDescription;
     private TextView tvTemperature;
     private TextView tvIcon;
     private TextView tvStatus;
@@ -58,6 +53,7 @@ public class DetailsFragment extends Fragment {
     private Typeface weatherFont;
     private ProgressBar progressBar;
     private ImageView imageIcon;
+    private ImageView imageFlag; //выведем флаг
 
     //передаем аргументы(позицию) во фрагмент
     public static DetailsFragment newInstance(int position) {
@@ -67,39 +63,22 @@ public class DetailsFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     //скрываем и показываем контейнеры при загрузке из интернета
     private void setVisibleContainer(boolean flag) {
         if (flag) {
             layoutContainer.setVisibility(View.VISIBLE);
             imageIcon.setVisibility(View.VISIBLE);
+            imageFlag.setVisibility(View.VISIBLE);
             layoutProgress.setVisibility(View.GONE);
         } else {
             layoutContainer.setVisibility(View.GONE);
             imageIcon.setVisibility(View.GONE);
+            imageFlag.setVisibility(View.GONE);
             layoutProgress.setVisibility(View.VISIBLE);
         }
 
     }
-
-    // Создадим объект класса делателя запросов и налету сделаем анонимный класс слушателя
-    final RequestMaker requestMaker = new RequestMaker(new RequestMaker.OnRequestListener() {
-        // Обновим прогресс
-        @Override
-        public void onStatusProgress(String updateProgress) {
-            tvStatus.setText(updateProgress);
-        }
-        // по окончании загрузки вызовем этот метод, который передаст JSON
-        @Override
-        public void onComplete(String result) {
-            try {
-                JSONObject jsonObject=new JSONObject(result.toString());
-                renderWeather(jsonObject);
-            } catch (Exception e){
-                showError(e.getMessage());
-            }
-
-        }
-    });
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,12 +94,12 @@ public class DetailsFragment extends Fragment {
         tvCity = rootView.findViewById(R.id.text_view_city);
         tvDate = rootView.findViewById(R.id.text_view_time);
         tvStatus = rootView.findViewById(R.id.text_view_info);
-        //tvDescription = rootView.findViewById(R.id.text_view_description);
         tvTemperature = rootView.findViewById(R.id.text_view_temperature);
         tvIcon = rootView.findViewById(R.id.text_view_icon);
         tvIcon.setTypeface(weatherFont);
-        progressBar=rootView.findViewById(R.id.progressBar);
-        imageIcon=rootView.findViewById(R.id.image_icon);
+        progressBar = rootView.findViewById(R.id.progressBar);
+        imageIcon = rootView.findViewById(R.id.image_icon);
+        imageFlag=rootView.findViewById(R.id.image_flag);
 
         //контейнеры
         layoutProgress = rootView.findViewById(R.id.linear_layout_progress);
@@ -152,8 +131,11 @@ public class DetailsFragment extends Fragment {
         recyclerView.setLayoutManager(manager);
         city = CityEmmiter.getCities().get(position);
         //загружаем данные погоды из интернета
-        // todo пробуем через AsyncTask
-        requestMaker.make(city.getName().toLowerCase(Locale.US));
+        //Retrofit
+        OpenWeatherRetrofit openWeatherRetrofit = new OpenWeatherRetrofit(this);
+        openWeatherRetrofit.requestRetrofit(city.getName().toLowerCase(Locale.US), position);
+        // пробуем через AsyncTask
+        //requestMaker.make(city.getName().toLowerCase(Locale.US));
         //updateWeatherData(city.getName().toLowerCase(Locale.US));
 
         tvCity.setText(city.getName());
@@ -180,12 +162,12 @@ public class DetailsFragment extends Fragment {
         return cities;
     }
 
-    //загрузка данных из интернета
+    /*//загрузка данных из интернета
     private void updateWeatherData(final String city) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                final JSONObject json = WeatherDataLoader.getJSONData(getContext(), city);
+                final JSONObject json = JsonData.getJSONData(getContext(), city);
                 if (json == null) {
                     handler.post(new Runnable() {
                         @Override
@@ -228,58 +210,67 @@ public class DetailsFragment extends Fragment {
             showError(e.getMessage().toString());
         }
 
-    }
+    }*/
 
-    private void setWeatherIcon(int actualId, long sunrise, long sunset) {
-        int id = actualId / 100;
-        String icon = "";
-
-        if (actualId == 800) {
-            long currentTime = new Date().getTime();
-            if (currentTime >= sunrise && currentTime < sunset) {
-                icon = getActivity().getString(R.string.weather_sunny);
-                imageIcon.setImageResource(R.drawable.appbar_day);
-            } else {
-                icon = getActivity().getString(R.string.weather_clear_night);
-                imageIcon.setImageResource(R.drawable.appbar_night);
-            }
-        } else {
-            Log.d("Json_id", "id" + id);
-            switch (id) {
-                case 2: {
-                    icon = getActivity().getString(R.string.weather_thunder);
-                    break;
-                }
-                case 3: {
-                    icon = getActivity().getString(R.string.weather_drizzle);
-                    break;
-                }
-                case 5: {
-                    icon = getActivity().getString(R.string.weather_rainy);
-                    break;
-                }
-                case 6: {
-                    icon = getActivity().getString(R.string.weather_snowy);
-                    break;
-                }
-                case 7: {
-                    icon = getActivity().getString(R.string.weather_foggy);
-                    break;
-                }
-                case 8: {
-                    icon = getActivity().getString(R.string.weather_cloudy);
-                    break;
-                }
-                default:
-                    break;
-
-            }
-        }
-        tvIcon.setText(icon);
-    }
 
     private void showError(String text) {
         progressBar.setVisibility(View.GONE);
         tvStatus.setText(text);
+    }
+
+    @Override
+    public void onShowCity(final City city) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                tvTemperature.setText(city.getTemperature(tvTemperature.getHint().toString()));
+                //todo picasso flag show
+                //http://flagpedia.net/data/flags/normal/ru.png
+
+                Picasso
+                        .with(getContext())
+                        .load("http://flagpedia.net/data/flags/normal/"+city.getCountryCode()+".png")
+                        .into(imageFlag);
+
+                initAdapter(newArrayCity());
+                setVisibleContainer(true);
+            }
+        });
+
+    }
+
+    @Override
+    public void onShowError(final Throwable t) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                showError(t.getMessage());
+            }
+        });
+
+
+    }
+
+    @Override
+    public void onSetIcon(final int icon) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                tvIcon.setText(icon);
+                //tvIcon.setText(R.string.weather_test);
+            }
+        });
+
+    }
+
+    @Override
+    public void onSetImageIcon(final int imageResource) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                imageIcon.setImageResource(imageResource);
+            }
+        });
+
     }
 }
