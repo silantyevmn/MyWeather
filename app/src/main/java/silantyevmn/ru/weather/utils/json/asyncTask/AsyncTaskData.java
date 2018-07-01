@@ -1,4 +1,4 @@
-package silantyevmn.ru.weather.utils;
+package silantyevmn.ru.weather.utils.json;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -11,14 +11,14 @@ import java.net.URL;
 import javax.net.ssl.HttpsURLConnection;
 
 // Делатель запросов (класс умеющий запрашивать страницы)
-public class RequestMaker {
+public class AsyncTaskData {
     private final String OPEN_WEATHER_MAP_API = "https://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s&units=metric";
     private static final String KEY = "14f34cd242746f2d76bb04739d7485fe";
     // Слушатель, при помощи него, отправим обратный вызов о готовности страницы
     private OnRequestListener listener;
 
     // В конструкторе примем слушателя, в дальнейшем его передадим асинхронной задаче
-    public RequestMaker(OnRequestListener onRequestListener){
+    public AsyncTaskData(OnRequestListener onRequestListener){
         listener = onRequestListener;
     }
 

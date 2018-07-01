@@ -1,4 +1,4 @@
-package silantyevmn.ru.weather.utils;
+package silantyevmn.ru.weather.utils.json;
 
 import android.content.Context;
 
@@ -15,7 +15,7 @@ import javax.net.ssl.HttpsURLConnection;
  * Created by silan on 23.06.2018.
  */
 
-public class WeatherDataLoader {
+public class JsonData {
     //private static final String OPEN_WEATHER_MAP_API="https://api.openweathermap.org/data/2.5/weather?q=%s&units=metric";
     private static final String OPEN_WEATHER_MAP_API = "https://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s&units=metric";
     //private static final String KEY_CITY="x-api-key";
@@ -24,12 +24,12 @@ public class WeatherDataLoader {
     private static final String NEW_LINE = "\n";
     private static final int SERVER_CODE_OK = 200;
 
-    //возвращаем JSON или NULL
+    //возвращаем JsonData или NULL
     public static JSONObject getJSONData(Context context, String city) {
         try {
             URL url = new URL(String.format(OPEN_WEATHER_MAP_API, city, KEY));
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-//            connection.addRequestProperty(KEY0,KEY_CITY);//todo ввести ключ
+//            connection.addRequestProperty(KEY0,KEY_CITY);
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             StringBuilder rawData = new StringBuilder(1024);
