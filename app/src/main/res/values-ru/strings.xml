@@ -39,4 +39,5 @@
     <string name="bottom_navigation_menu_title_month">месяц</string>
     <string name="error_json_null">Ошибка! json null</string>
     <string name="text_info_progress_internet">Идет загрузка с погодного сервера...</string>
+    <string name="dialog_button_ok">Ok</string>
 </resources>

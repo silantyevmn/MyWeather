@@ -31,6 +31,7 @@
 
                 <TextView
                     android:id="@+id/text_view_temperature"
+                    android:hint="@string/text_prefix_temperature"
                     style="@style/MyStyle" />
             </LinearLayout>
 
@@ -46,6 +47,7 @@
 
                 <TextView
                     android:id="@+id/text_view_humidity"
+                    android:hint="@string/text_prefix_humidity"
                     style="@style/MyStyle" />
             </LinearLayout>
 
@@ -61,6 +63,7 @@
 
                 <TextView
                     android:id="@+id/text_view_pressure"
+                    android:hint="@string/text_prefix_pressure"
                     style="@style/MyStyle" />
             </LinearLayout>
 
@@ -76,6 +79,7 @@
 
                 <TextView
                     android:id="@+id/text_view_wind"
+                    android:hint="@string/text_prefix_wind"
                     style="@style/MyStyle" />
             </LinearLayout>
         </LinearLayout>

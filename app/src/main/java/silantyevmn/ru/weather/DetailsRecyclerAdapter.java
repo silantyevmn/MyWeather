@@ -1,6 +1,5 @@
 package silantyevmn.ru.weather;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -51,11 +50,9 @@ public class DetailsRecyclerAdapter extends RecyclerView.Adapter<DetailsRecycler
         TextView tvPressure;
         TextView tvWind;
         LinearLayout layoutHumidity, layoutPressure, layoutWind;
-        Context context;
 
         MyViewHolder(View itemView) {
             super(itemView);
-            context = itemView.getContext();
             tvDate = (TextView) itemView.findViewById(R.id.text_view_date);
             tvTemperature = (TextView) itemView.findViewById(R.id.text_view_temperature);
             tvHumidity = (TextView) itemView.findViewById(R.id.text_view_humidity);
@@ -68,10 +65,10 @@ public class DetailsRecyclerAdapter extends RecyclerView.Adapter<DetailsRecycler
 
         void bind(City city) {
             tvDate.setText(city.getCurrentDate("dd.MM"));
-            tvTemperature.setText(city.getTemperature(context));
-            tvHumidity.setText(city.getHumidity(context));
-            tvPressure.setText(city.getPressure(context));
-            tvWind.setText(city.getWind(context));
+            tvTemperature.setText(city.getTemperature(tvTemperature.getHint().toString()));
+            tvHumidity.setText(city.getHumidity(tvHumidity.getHint().toString()));
+            tvPressure.setText(city.getPressure(tvPressure.getHint().toString()));
+            tvWind.setText(city.getWind(tvWind.getHint().toString()));
             layoutHumidity.setVisibility(city.isHumidity() ? View.VISIBLE : View.GONE);
             layoutPressure.setVisibility(city.isPressure() ? View.VISIBLE : View.GONE);
             layoutWind.setVisibility(city.isWind() ? View.VISIBLE : View.GONE);
