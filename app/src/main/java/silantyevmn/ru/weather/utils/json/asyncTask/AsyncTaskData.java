@@ -1,4 +1,4 @@
-package silantyevmn.ru.weather.utils.json;
+package silantyevmn.ru.weather.utils.json.asyncTask;
 
 import android.os.AsyncTask;
 import android.util.Log;
