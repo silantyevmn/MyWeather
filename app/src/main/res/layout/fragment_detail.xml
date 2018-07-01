@@ -24,10 +24,17 @@
                 android:layout_height="@dimen/image_icon_height"
                 android:scaleType="centerCrop"
                 android:src="@drawable/appbar_night"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_anchor="@+id/linear_layout_data"
                 app:layout_anchorGravity="top|center"
                 app:layout_collapseMode="parallax" />
+
+            <ImageView
+                android:id="@+id/image_flag"
+                android:layout_width="@dimen/image_flag_width"
+                android:layout_height="@dimen/image_flag_height"
+                android:layout_gravity="bottom"
+                android:visibility="gone" />
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -36,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -113,7 +120,7 @@
                         android:id="@+id/text_view_temperature"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="+25C"
+                        android:hint="@string/text_prefix_temperature"
                         android:textSize="@dimen/text_size_25" />
                 </LinearLayout>
             </LinearLayout>
