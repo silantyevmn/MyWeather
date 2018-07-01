@@ -49,5 +49,7 @@
     <string name="weather_snowy">&#xf01b;</string>
     <string name="weather_thunder">&#xf01e;</string>
     <string name="weather_drizzle">&#xf01c;</string>
+    <string name="weather_test">&#xf08a;</string>
     <string name="text_info_progress_internet">Downloading from the weather server is in progress...</string>
+    <string name="dialog_button_ok">Ok</string>
 </resources>
