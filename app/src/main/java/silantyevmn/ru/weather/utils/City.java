@@ -1,12 +1,8 @@
 package silantyevmn.ru.weather.utils;
 
-import android.content.Context;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
-
-import silantyevmn.ru.weather.R;
 
 /**
  * Created by silan on 17.05.2018.
@@ -21,6 +17,15 @@ public class City {
     private boolean isHumidity;
     private boolean isPressure;
     private boolean isWind;
+    private String countryCode;
+
+    public String getCountryCode() {
+        return countryCode;
+    }
+
+    public void setCountryCode(String countryCode) {
+        this.countryCode = countryCode;
+    }
 
     public void setTemperature(int temperature){
         this.temperature=temperature;
@@ -74,8 +79,7 @@ public class City {
         this.name=name;
     }
 
-    public String getTemperature(Context context) {
-        String prefix=context.getResources().getString(R.string.text_prefix_temperature);
+    public String getTemperature(String prefix) {
         if (temperature > 0) {
             return "+" + temperature + prefix;
         } else if (temperature < 0) {
@@ -83,18 +87,18 @@ public class City {
         } else return temperature + prefix;
     }
 
-    public String getHumidity(Context context) {
-        String prefix=context.getResources().getString(R.string.text_prefix_humidity);
+    public String getHumidity(String prefix) {
+        //String prefix=context.getResources().getString(R.string.text_prefix_humidity);
         return humidity + prefix;
     }
 
-    public String getPressure(Context context) {
-        String prefix=context.getResources().getString(R.string.text_prefix_pressure);
+    public String getPressure(String prefix) {
+        //String prefix=context.getResources().getString(R.string.text_prefix_pressure);
         return pressure + prefix;
     }
 
-    public String getWind(Context context) {
-        String prefix=context.getResources().getString(R.string.text_prefix_wind);
+    public String getWind(String prefix) {
+        //String prefix=context.getResources().getString(R.string.text_prefix_wind);
         return wind + prefix;
     }
 
