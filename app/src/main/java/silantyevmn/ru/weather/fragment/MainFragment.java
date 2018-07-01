@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import silantyevmn.ru.weather.DialogEditItem;
+import silantyevmn.ru.weather.DialogView;
 import silantyevmn.ru.weather.R;
 import silantyevmn.ru.weather.utils.City;
 import silantyevmn.ru.weather.utils.CityEmmiter;
@@ -23,19 +23,13 @@ import silantyevmn.ru.weather.utils.CityEmmiter;
  * Created by silan on 02.06.2018.
  */
 
-public class MainFragment extends Fragment implements DialogEditItem.onUpdateAdapter {
+public class MainFragment extends Fragment{
     private onClickCityListItem listener;
     private MyAdapter adapter;
 
     // Создадим интерфейс, через который мы будем передавать номер строки списка, нажатой пользователем
     public interface onClickCityListItem {
         void onClickListItem(int position);
-    }
-
-    //обновляем адаптер
-    @Override
-    public void onUpdateAdapterItem(int position) {
-        adapter.notifyItemChanged(position);
     }
 
     // Инстантиируем наш интерфейс
@@ -146,9 +140,16 @@ public class MainFragment extends Fragment implements DialogEditItem.onUpdateAda
     }
 
     //добавление города в список
-    private void addCity(int position, String name) {
-        CityEmmiter.setAddNewCity(name, position);
-        adapter.notifyItemChanged(position);
+    private void addCity(final int position, String name) {
+        DialogView.getDialog(new DialogView.onClick() {
+            @Override
+            public void onClickPositive(String city) {
+                CityEmmiter.setAddNewCity(city,position);
+                adapter.notifyItemChanged(position);
+            }
+        }).showDialogView(getActivity(),name,"");
+       /* CityEmmiter.setAddNewCity(name, position);
+        adapter.notifyItemChanged(position);*/
     }
 
     //удаление города из списка
@@ -158,9 +159,15 @@ public class MainFragment extends Fragment implements DialogEditItem.onUpdateAda
     }
 
     //редактирование города
-    private void editCity(int position) {
+    private void editCity(final int position) {
         String name = CityEmmiter.getCities().get(position).getName();
         //показываем окно с вводом города
-        new DialogEditItem(this).editItem(getContext(), name, position);
+        DialogView.getDialog(new DialogView.onClick() {
+            @Override
+            public void onClickPositive(String city) {
+                CityEmmiter.setEditCity(city,position);
+                adapter.notifyItemChanged(position);
+            }
+        }).showDialogView(getActivity(),name,"");
     }
 }
