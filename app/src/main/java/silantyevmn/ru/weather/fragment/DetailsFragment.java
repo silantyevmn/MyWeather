@@ -28,7 +28,7 @@ import silantyevmn.ru.weather.R;
 import silantyevmn.ru.weather.utils.City;
 import silantyevmn.ru.weather.utils.CityEmmiter;
 import silantyevmn.ru.weather.utils.CityPreference;
-import silantyevmn.ru.weather.utils.json.OpenWeatherRetrofit;
+import silantyevmn.ru.weather.utils.json.retrofit.OpenWeatherRetrofit;
 
 /**
  * Created by silan on 27.05.2018.
@@ -52,7 +52,7 @@ public class DetailsFragment extends Fragment implements OpenWeatherRetrofit.onS
     private final Handler handler = new Handler();
     private Typeface weatherFont;
     private ProgressBar progressBar;
-    private ImageView imageIcon;
+    private ImageView imageAppBar;
     private ImageView imageFlag; //выведем флаг
 
     //передаем аргументы(позицию) во фрагмент
@@ -68,12 +68,12 @@ public class DetailsFragment extends Fragment implements OpenWeatherRetrofit.onS
     private void setVisibleContainer(boolean flag) {
         if (flag) {
             layoutContainer.setVisibility(View.VISIBLE);
-            imageIcon.setVisibility(View.VISIBLE);
+            imageAppBar.setVisibility(View.VISIBLE);
             imageFlag.setVisibility(View.VISIBLE);
             layoutProgress.setVisibility(View.GONE);
         } else {
             layoutContainer.setVisibility(View.GONE);
-            imageIcon.setVisibility(View.GONE);
+            imageAppBar.setVisibility(View.GONE);
             imageFlag.setVisibility(View.GONE);
             layoutProgress.setVisibility(View.VISIBLE);
         }
@@ -98,8 +98,8 @@ public class DetailsFragment extends Fragment implements OpenWeatherRetrofit.onS
         tvIcon = rootView.findViewById(R.id.text_view_icon);
         tvIcon.setTypeface(weatherFont);
         progressBar = rootView.findViewById(R.id.progressBar);
-        imageIcon = rootView.findViewById(R.id.image_icon);
-        imageFlag=rootView.findViewById(R.id.image_flag);
+        imageAppBar = rootView.findViewById(R.id.image_icon);
+        imageFlag = rootView.findViewById(R.id.image_flag);
 
         //контейнеры
         layoutProgress = rootView.findViewById(R.id.linear_layout_progress);
@@ -229,7 +229,7 @@ public class DetailsFragment extends Fragment implements OpenWeatherRetrofit.onS
 
                 Picasso
                         .with(getContext())
-                        .load("http://flagpedia.net/data/flags/normal/"+city.getCountryCode()+".png")
+                        .load("http://flagpedia.net/data/flags/normal/" + city.getCountryCode() + ".png")
                         .into(imageFlag);
 
                 initAdapter(newArrayCity());
@@ -257,18 +257,17 @@ public class DetailsFragment extends Fragment implements OpenWeatherRetrofit.onS
             @Override
             public void run() {
                 tvIcon.setText(icon);
-                //tvIcon.setText(R.string.weather_test);
             }
         });
 
     }
 
     @Override
-    public void onSetImageIcon(final int imageResource) {
+    public void onSetImageAppBar(final int imageResource) {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                imageIcon.setImageResource(imageResource);
+                imageAppBar.setImageResource(imageResource);
             }
         });
 
