@@ -19,7 +19,7 @@ import silantyevmn.ru.weather.utils.CityEmmiter;
 
 public class OpenWeatherRetrofit {
     private IOpenWeather iOpenWeather;
-    private final String OPEN_WEATHER_KEY_API = "14f34cd242746f2d76bb04739d7485fe";
+    private final String OPEN_WEATHER_KEY_API = "795051471dd0e81e294e0f952f400384";
     //private final String OPEN_WEATHER_MAP_URL = "https://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s&units=metric";
     private final String OPEN_WEATHER_MAP_URL = "https://api.openweathermap.org/";
     private final String UNITS = "metric";
@@ -38,7 +38,7 @@ public class OpenWeatherRetrofit {
 
         void onSetIcon(int icon);
 
-        void onSetImageIcon(int imageResource);
+        void onSetImageAppBar(int imageResource);
     }
 
     private void initRetorfit() {
@@ -76,6 +76,8 @@ public class OpenWeatherRetrofit {
             city.setPressure((int) response.body().getMain().getPressure());
             city.setWind((int) response.body().getWind().getSpeed());
             city.setCountryCode(response.body().getSys().getCountry().toLowerCase());
+            /*//&#xf08a
+            listener.onSetIcon(response.body().getWeathers()[0].getIcon());*/
             setWeatherIcon(response.body().getWeathers()[0].getId(), response.body().getSys().getSunrise() * 1000, response.body().getSys().getSunset() * 1000);
             listener.onShowCity(city);
         } else {
@@ -92,15 +94,13 @@ public class OpenWeatherRetrofit {
     private void setWeatherIcon(int actualId, long sunrise, long sunset) {
         int id = actualId / 100;
         int icon = 0;
-
+        long currentTime = new Date().getTime();
+        setImageAppBar(currentTime,sunrise,sunset);
         if (actualId == 800) {
-            long currentTime = new Date().getTime();
             if (currentTime >= sunrise && currentTime < sunset) {
                 icon = R.string.weather_sunny;
-                listener.onSetImageIcon(R.drawable.appbar_day);
             } else {
                 icon = R.string.weather_clear_night;
-                listener.onSetImageIcon(R.drawable.appbar_night);
             }
 
         } else {
@@ -138,4 +138,11 @@ public class OpenWeatherRetrofit {
         listener.onSetIcon(icon);
     }
 
+    private void setImageAppBar(long currentTime, long sunrise, long sunset) {
+        if (currentTime >= sunrise && currentTime < sunset){
+            listener.onSetImageAppBar(R.drawable.appbar_day);
+        } else {
+            listener.onSetImageAppBar(R.drawable.appbar_night);
+        }
+    }
 }

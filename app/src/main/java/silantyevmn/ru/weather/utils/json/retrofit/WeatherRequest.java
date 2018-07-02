@@ -119,17 +119,10 @@ class Sys {
         return sunrise;
     }
 
-    public void setSunrise(long sunrise) {
-        this.sunrise = sunrise;
-    }
-
     public long getSunset() {
         return sunset;
     }
 
-    public void setSunset(long sunset) {
-        this.sunset = sunset;
-    }
 }
 
 class Wind {
@@ -160,7 +153,13 @@ class Weather {
     @SerializedName("description")
     @Expose
     private String description;
+    @SerializedName("icon")
+    @Expose
+    private String icon;
 
+    public String getIcon() {
+        return icon;
+    }
 
     public int getId() {
         return id;
