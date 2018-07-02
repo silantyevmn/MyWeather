@@ -17,7 +17,16 @@ public class City {
     private boolean isHumidity;
     private boolean isPressure;
     private boolean isWind;
-    private String countryCode;
+    private String countryCode; //ru,en...
+    private String icon; //01d,02n...
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
     public String getCountryCode() {
         return countryCode;
