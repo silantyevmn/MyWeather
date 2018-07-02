@@ -1,4 +1,4 @@
-package silantyevmn.ru.weather.utils.json;
+package silantyevmn.ru.weather.utils.json.retrofit;
 
 import android.util.Log;
 

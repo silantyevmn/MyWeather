@@ -1,4 +1,4 @@
-package silantyevmn.ru.weather.utils.json;
+package silantyevmn.ru.weather.utils.json.retrofit;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

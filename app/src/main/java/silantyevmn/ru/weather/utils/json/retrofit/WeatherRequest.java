@@ -1,4 +1,4 @@
-package silantyevmn.ru.weather.utils.json;
+package silantyevmn.ru.weather.utils.json.retrofit;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

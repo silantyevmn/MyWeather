@@ -19,7 +19,7 @@ public class JsonData {
     //private static final String OPEN_WEATHER_MAP_API="https://api.openweathermap.org/data/2.5/weather?q=%s&units=metric";
     private static final String OPEN_WEATHER_MAP_API = "https://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s&units=metric";
     //private static final String KEY_CITY="x-api-key";
-    private static final String KEY = "14f34cd242746f2d76bb04739d7485fe";
+    private static final String KEY = "795051471dd0e81e294e0f952f400384";
     private static final String RESPONSE = "cod";
     private static final String NEW_LINE = "\n";
     private static final int SERVER_CODE_OK = 200;
