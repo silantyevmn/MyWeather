@@ -14,9 +14,6 @@ public class City {
     private int humidity; //влажность
     private int pressure; //давление
     private int wind; //скорость ветра
-    private boolean isHumidity;
-    private boolean isPressure;
-    private boolean isWind;
     private String countryCode; //ru,en...
     private String icon; //01d,02n...
 
@@ -36,34 +33,11 @@ public class City {
         this.countryCode = countryCode;
     }
 
-    public void setTemperature(int temperature){
-        this.temperature=temperature;
-    }
-    public boolean isHumidity() {
-        return isHumidity;
+    public void setTemperature(int temperature) {
+        this.temperature = temperature;
     }
 
-    public void setIsHumidity(boolean humidity) {
-        isHumidity = humidity;
-    }
-
-    public boolean isPressure() {
-        return isPressure;
-    }
-
-    public void setIsPressure(boolean pressure) {
-        isPressure = pressure;
-    }
-
-    public boolean isWind() {
-        return isWind;
-    }
-
-    public void setIsWind(boolean wind) {
-        isWind = wind;
-    }
-
-    public String getCurrentDate(String format){
+    public String getCurrentDate(String format) {
         SimpleDateFormat dateformat = new SimpleDateFormat(format);
         return dateformat.format(Calendar.getInstance().getTime());
     }
@@ -80,8 +54,8 @@ public class City {
         return name;
     }
 
-    public void setName(String name){
-        this.name=name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getTemperature(String prefix) {
@@ -117,10 +91,10 @@ public class City {
     }
 
     public void setPressure(int pressure) {
-        this.pressure=pressure;
+        this.pressure = pressure;
     }
 
     public void setWind(int wind) {
-        this.wind=wind;
+        this.wind = wind;
     }
 }
