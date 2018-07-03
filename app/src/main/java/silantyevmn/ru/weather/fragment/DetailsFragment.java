@@ -1,10 +1,8 @@
 package silantyevmn.ru.weather.fragment;
 
-import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,7 +18,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Locale;
 
 import silantyevmn.ru.weather.DetailsRecyclerAdapter;
@@ -45,9 +42,6 @@ public class DetailsFragment extends Fragment implements OpenWeatherRetrofit.onS
     private TextView tvIcon;
     private TextView tvStatus;
     private City city;
-    private boolean isHumidity;
-    private boolean isPressure;
-    private boolean isWind;
     private DetailsRecyclerAdapter adapter;
     private final Handler handler = new Handler();
     private Typeface weatherFont;
@@ -121,11 +115,6 @@ public class DetailsFragment extends Fragment implements OpenWeatherRetrofit.onS
         int position = bundle.getInt(CityPreference.KEY_POSITION, CityPreference.POSITION_DEFAULT);
         //запишем позицию
         CityPreference.getPreference(getContext()).setPosition(position);
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
-        isHumidity = prefs.getBoolean(CityPreference.KEY_HUMIDITY, CityPreference.HUMIDITY_DEFAULT);
-        isPressure = prefs.getBoolean(CityPreference.KEY_PRESSURE, CityPreference.PRESSURE_DEFAULT);
-        isWind = prefs.getBoolean(CityPreference.KEY_WIND, CityPreference.WIND_DEFAULT);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
@@ -133,13 +122,12 @@ public class DetailsFragment extends Fragment implements OpenWeatherRetrofit.onS
         //загружаем данные погоды из интернета
         //Retrofit
         OpenWeatherRetrofit openWeatherRetrofit = new OpenWeatherRetrofit(this);
-        openWeatherRetrofit.requestRetrofit(city.getName().toLowerCase(Locale.US), position);
+        openWeatherRetrofit.requestRetrofitOneDay(city.getName().toLowerCase(Locale.US), position);
         // пробуем через AsyncTask
         //requestMaker.make(city.getName().toLowerCase(Locale.US));
         //updateWeatherData(city.getName().toLowerCase(Locale.US));
 
         tvCity.setText(city.getName());
-        city.setCurrentDate(Calendar.getInstance());
         tvDate.setText(city.getCurrentDate("EEEE, dd MMM yyyy, HH:mm"));
 
         //устанавливаем адаптер
@@ -148,16 +136,12 @@ public class DetailsFragment extends Fragment implements OpenWeatherRetrofit.onS
     }
 
     private void initAdapter(ArrayList<City> cities) {
-        adapter = new DetailsRecyclerAdapter(cities, R.layout.fragment_detail_item);
+        adapter = new DetailsRecyclerAdapter(getContext(), cities, R.layout.fragment_detail_item);
         recyclerView.setAdapter(adapter);
     }
 
     private ArrayList<City> newArrayCity() {
         ArrayList<City> cities = new ArrayList<>();
-        city.setCurrentDate(Calendar.getInstance());
-        city.setIsHumidity(isHumidity);
-        city.setIsPressure(isPressure);
-        city.setIsWind(isWind);
         cities.add(city);
         return cities;
     }
