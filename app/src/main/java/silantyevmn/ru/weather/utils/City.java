@@ -63,13 +63,9 @@ public class City {
         isWind = wind;
     }
 
-    private Calendar currentDate;
     public String getCurrentDate(String format){
         SimpleDateFormat dateformat = new SimpleDateFormat(format);
-        return dateformat.format(currentDate.getTime());
-    }
-    public void setCurrentDate(Calendar c){
-        this.currentDate=c;
+        return dateformat.format(Calendar.getInstance().getTime());
     }
 
     public City(String name, int temperature, int humidity, int pressure, int wind) {
