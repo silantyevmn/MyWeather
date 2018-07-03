@@ -4,6 +4,8 @@ import android.util.Log;
 
 import java.util.Date;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,28 +49,35 @@ public class OpenWeatherRetrofit {
                 .baseUrl(OPEN_WEATHER_MAP_URL)
                 // Конвертер, необходимый для преобразования JsonData в объекты
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(createOkHttpClient())
                 .build();
         // Создаем объект, при помощи которого будем выполнять запросы
         iOpenWeather = retrofit.create(IOpenWeather.class);
     }
 
-    public void requestRetrofit(String city, final int position) {
+    private OkHttpClient createOkHttpClient(){
+        final OkHttpClient.Builder httpClient=new OkHttpClient.Builder();
+        httpClient.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+        return  httpClient.build();
+    }
+
+    public void requestRetrofitOneDay(String city, final int position) {
         iOpenWeather.loadWeather(city, OPEN_WEATHER_KEY_API, UNITS)
-                .enqueue(new Callback<WeatherRequest>() {
+                .enqueue(new Callback<WeatherRequestOneDay>() {
 
                     @Override
-                    public void onResponse(Call<WeatherRequest> call, Response<WeatherRequest> response) {
+                    public void onResponse(Call<WeatherRequestOneDay> call, Response<WeatherRequestOneDay> response) {
                         setWeatherToCity(response, position);
                     }
 
                     @Override
-                    public void onFailure(Call<WeatherRequest> call, Throwable t) {
+                    public void onFailure(Call<WeatherRequestOneDay> call, Throwable t) {
                         listener.onShowError(t);
                     }
                 });
     }
 
-    private void setWeatherToCity(Response<WeatherRequest> response, int position) {
+    private void setWeatherToCity(Response<WeatherRequestOneDay> response, int position) {
         if (response.body() != null && response.body().getCod() == OPEN_WEATHER_COD_GOOD) {
             City city = CityEmmiter.getCities().get(position);
             city.setTemperature((int) response.body().getMain().getTemp());
@@ -76,9 +85,7 @@ public class OpenWeatherRetrofit {
             city.setPressure((int) response.body().getMain().getPressure());
             city.setWind((int) response.body().getWind().getSpeed());
             city.setCountryCode(response.body().getSys().getCountry().toLowerCase());
-            /*//&#xf08a
-            listener.onSetIcon(response.body().getWeathers()[0].getIcon());*/
-            setWeatherIcon(response.body().getWeathers()[0].getId(), response.body().getSys().getSunrise() * 1000, response.body().getSys().getSunset() * 1000);
+            setWeatherIcon(response.body().getWeathers()[0].getId(),response.body().getSys().getSunrise() * 1000, response.body().getSys().getSunset() * 1000);
             listener.onShowCity(city);
         } else {
             String error = "";
@@ -91,11 +98,11 @@ public class OpenWeatherRetrofit {
         }
     }
 
-    private void setWeatherIcon(int actualId, long sunrise, long sunset) {
+    private void setWeatherIcon(int actualId,long sunrise,long sunset) {
+        setImageAppBar(sunrise, sunset);
         int id = actualId / 100;
         int icon = 0;
         long currentTime = new Date().getTime();
-        setImageAppBar(currentTime,sunrise,sunset);
         if (actualId == 800) {
             if (currentTime >= sunrise && currentTime < sunset) {
                 icon = R.string.weather_sunny;
@@ -132,13 +139,13 @@ public class OpenWeatherRetrofit {
                 }
                 default:
                     break;
-
             }
         }
         listener.onSetIcon(icon);
     }
 
-    private void setImageAppBar(long currentTime, long sunrise, long sunset) {
+    private void setImageAppBar(long sunrise, long sunset) {
+        long currentTime = new Date().getTime();
         if (currentTime >= sunrise && currentTime < sunset){
             listener.onSetImageAppBar(R.drawable.appbar_day);
         } else {
