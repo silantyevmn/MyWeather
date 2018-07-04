@@ -9,19 +9,19 @@ import java.util.List;
  * Created by silan on 04.07.2018.
  */
 
-public class DataBase{
-    private static DataBase dataBase=null;
+public final class DataBaseSource {
+    private static DataBaseSource dataBaseSource =null;
     private final String DATABASE_NAME="cities";
     private final String BASE_CITY="Moscow";
     private static CityDataBase cityDataBase;
 
-    public static DataBase initDataBase(Context context){
-        if(dataBase==null){
-            dataBase=new DataBase(context);
+    public static DataBaseSource initDataBase(Context context){
+        if(dataBaseSource ==null){
+            dataBaseSource =new DataBaseSource(context);
         }
-        return dataBase;
+        return dataBaseSource;
     }
-    private DataBase(Context context){
+    private DataBaseSource(Context context){
         cityDataBase = Room.databaseBuilder(context,CityDataBase.class,DATABASE_NAME).allowMainThreadQueries().build();
         //добавляем начальный город
         cityDataBase.dreamDioctionaryDAO().insert(new CityEntity(BASE_CITY));
