@@ -48,7 +48,7 @@ import com.google.gson.annotations.SerializedName;
         "name": "Saratov",
         "cod": 200
         }*/
-public class WeatherRequest {
+public class WeatherRequestOneDay {
     @SerializedName("weather")
     @Expose
     private Weather[] weathers;

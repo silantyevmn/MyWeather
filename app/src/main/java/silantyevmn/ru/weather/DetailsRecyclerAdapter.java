@@ -8,21 +8,30 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import silantyevmn.ru.weather.utils.City;
+import silantyevmn.ru.weather.database.CityEntity;
+import silantyevmn.ru.weather.utils.CityPreference;
+import silantyevmn.ru.weather.utils.DataPreference;
 
 /**
  * Created by silan on 07.06.2018.
  */
 
 public class DetailsRecyclerAdapter extends RecyclerView.Adapter<DetailsRecyclerAdapter.MyViewHolder> {
-    private ArrayList<City> cities;
+    private List<CityEntity> cities;
     private int rLayout;
+    private boolean isHumidity;
+    private boolean isPressure;
+    private boolean isWind;
 
-    public DetailsRecyclerAdapter(ArrayList<City> cities, int rLayout) {
+    public DetailsRecyclerAdapter(List<CityEntity> cities, int rLayout) {
         this.cities = cities;
         this.rLayout = rLayout;
+        CityPreference pref = CityPreference.getPreference(null);
+        isHumidity = pref.getIsHumidity();
+        isPressure = pref.getIsPressure();
+        isWind = pref.getIsWind();
     }
 
     @NonNull
@@ -63,15 +72,15 @@ public class DetailsRecyclerAdapter extends RecyclerView.Adapter<DetailsRecycler
             layoutWind = itemView.findViewById(R.id.layout_wind);
         }
 
-        void bind(City city) {
-            tvDate.setText(city.getCurrentDate("dd.MM"));
+        void bind(CityEntity city) {
+            tvDate.setText(DataPreference.getCurrentDate("dd.MM"));
             tvTemperature.setText(city.getTemperature(tvTemperature.getHint().toString()));
             tvHumidity.setText(city.getHumidity(tvHumidity.getHint().toString()));
             tvPressure.setText(city.getPressure(tvPressure.getHint().toString()));
             tvWind.setText(city.getWind(tvWind.getHint().toString()));
-            layoutHumidity.setVisibility(city.isHumidity() ? View.VISIBLE : View.GONE);
-            layoutPressure.setVisibility(city.isPressure() ? View.VISIBLE : View.GONE);
-            layoutWind.setVisibility(city.isWind() ? View.VISIBLE : View.GONE);
+            layoutHumidity.setVisibility(isHumidity ? View.VISIBLE : View.GONE);
+            layoutPressure.setVisibility(isPressure ? View.VISIBLE : View.GONE);
+            layoutWind.setVisibility(isWind ? View.VISIBLE : View.GONE);
         }
     }
 

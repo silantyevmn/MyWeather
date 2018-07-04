@@ -2,6 +2,7 @@ package silantyevmn.ru.weather.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,10 +15,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 import silantyevmn.ru.weather.DialogView;
 import silantyevmn.ru.weather.R;
-import silantyevmn.ru.weather.utils.City;
-import silantyevmn.ru.weather.utils.CityEmmiter;
+import silantyevmn.ru.weather.database.CityEntity;
+import silantyevmn.ru.weather.database.DataBaseSource;
 
 /**
  * Created by silan on 02.06.2018.
@@ -26,6 +29,7 @@ import silantyevmn.ru.weather.utils.CityEmmiter;
 public class MainFragment extends Fragment{
     private onClickCityListItem listener;
     private MyAdapter adapter;
+    private List<CityEntity> cityEntities;
 
     // Создадим интерфейс, через который мы будем передавать номер строки списка, нажатой пользователем
     public interface onClickCityListItem {
@@ -36,12 +40,20 @@ public class MainFragment extends Fragment{
     @Override
     public void onAttach(Context context) {
         listener = (onClickCityListItem) context;
+        cityEntities= DataBaseSource.getListCityEntity();
         super.onAttach(context);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_list, container, false);
+        FloatingActionButton button=rootView.findViewById(R.id.fab);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addCity(0,"NewCity");
+            }
+        });
         // Найдем наш RecyclerView в frament_list
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recycler);
         // Создадим LinearLayoutManager.
@@ -93,7 +105,7 @@ public class MainFragment extends Fragment{
             itemView.setOnCreateContextMenuListener(this);
         }
 
-        void bind(City city) {
+        void bind(CityEntity city) {
             cityNameTextView.setText(city.getName());
         }
 
@@ -123,13 +135,12 @@ public class MainFragment extends Fragment{
 
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
-            City city = CityEmmiter.getCities().get(position);
-            holder.bind(city);
+            holder.bind(cityEntities.get(position));
         }
 
         @Override
         public int getItemCount() {
-            return CityEmmiter.getCities().size();
+            return cityEntities.size();
         }
 
     }
@@ -143,31 +154,45 @@ public class MainFragment extends Fragment{
     private void addCity(final int position, String name) {
         DialogView.getDialog(new DialogView.onClick() {
             @Override
-            public void onClickPositive(String city) {
-                CityEmmiter.setAddNewCity(city,position);
-                adapter.notifyItemChanged(position);
+            public void onClickPositive(String cityName) {
+                CityEntity cityEntity=new CityEntity(cityName);
+                //добавляем в базу
+                DataBaseSource.insert(cityEntity);
+                //обновляем коллекцию
+                updateCityEntity();
             }
         }).showDialogView(getActivity(),name,"");
-       /* CityEmmiter.setAddNewCity(name, position);
-        adapter.notifyItemChanged(position);*/
     }
 
     //удаление города из списка
     private void deleteCity(int position) {
-        CityEmmiter.setDeleteCity(position);
-        adapter.notifyItemRemoved(position);
+        //удаляем из базы
+        DataBaseSource.delete(cityEntities.get(position));
+        //обновляем коллекцию
+        updateCityEntity();
     }
 
     //редактирование города
     private void editCity(final int position) {
-        String name = CityEmmiter.getCities().get(position).getName();
+        final CityEntity currentCity=cityEntities.get(position);
+        String name = currentCity.getName();
         //показываем окно с вводом города
         DialogView.getDialog(new DialogView.onClick() {
             @Override
-            public void onClickPositive(String city) {
-                CityEmmiter.setEditCity(city,position);
-                adapter.notifyItemChanged(position);
+            public void onClickPositive(String cityName) {
+                CityEntity newCityEntity=new CityEntity(cityName);
+                //обновляем в базе
+                DataBaseSource.delete(currentCity);
+                DataBaseSource.insert(newCityEntity);
+                //обновляем коллекцию
+                updateCityEntity();
             }
         }).showDialogView(getActivity(),name,"");
+    }
+
+    private void updateCityEntity() {
+        //загрузка из базы и обновление коллекции
+        cityEntities= DataBaseSource.getListCityEntity();
+        adapter.notifyDataSetChanged();
     }
 }

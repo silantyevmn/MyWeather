@@ -19,7 +19,6 @@ import android.widget.FrameLayout;
 import silantyevmn.ru.weather.R;
 import silantyevmn.ru.weather.fragment.DetailsFragment;
 import silantyevmn.ru.weather.fragment.MainFragment;
-import silantyevmn.ru.weather.utils.CityEmmiter;
 import silantyevmn.ru.weather.utils.CityPreference;
 
 import static android.content.DialogInterface.OnClickListener;
@@ -32,17 +31,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         //поддержка векторов для старых девайсов
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-
-        if (savedInstanceState == null) {
-            if (CityEmmiter.getCities() == null) {
-                // Расчитываем погоду:)
-                String[] arrCity = getResources().getStringArray(R.array.city_selection);
-                CityEmmiter.initNewCityParam(arrCity);
-            }
-        }
         //
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -56,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onCl
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         //
-        preference = CityPreference.getPreference(this);
+        preference = CityPreference.getPreference(null);
         int position = preference.getPosition();
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.fragment_details);
         //проверяем есть в активити фрагмент деталей погоды?
