@@ -1,6 +1,9 @@
 package silantyevmn.ru.weather.utils;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import silantyevmn.ru.weather.database.CityEntity;
 
 /**
  * Created by silan on 17.05.2018.
@@ -18,6 +21,13 @@ public class CityEmmiter {
         for (int i = 0; i < arrCity.length; i++) {
             String name = arrCity[i].toString();
             cities.add(getNewCity(name));
+        }
+    }
+
+    public static void initNewCityToDataBase(List<CityEntity> list) {
+        cities=new ArrayList<>();
+        for (CityEntity entity : list) {
+            cities.add(getNewCity(entity.getName()));
         }
     }
 
