@@ -12,8 +12,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import silantyevmn.ru.weather.R;
-import silantyevmn.ru.weather.utils.City;
-import silantyevmn.ru.weather.utils.CityEmmiter;
+import silantyevmn.ru.weather.database.CityEntity;
+import silantyevmn.ru.weather.database.DataBaseSource;
 
 /**
  * Created by silan on 30.06.2018.
@@ -27,14 +27,16 @@ public class OpenWeatherRetrofit {
     private final String UNITS = "metric";
     private final int OPEN_WEATHER_COD_GOOD = 200;
     private onShowWeather listener;
+    private CityEntity city;
 
-    public OpenWeatherRetrofit(onShowWeather listener) {
+    public OpenWeatherRetrofit(onShowWeather listener,CityEntity city) {
         this.listener = listener;
+        this.city=city;
         initRetorfit();
     }
 
     public interface onShowWeather {
-        void onShowCity(City city);
+        void onShowCity(CityEntity city);
 
         void onShowError(Throwable t);
 
@@ -79,18 +81,19 @@ public class OpenWeatherRetrofit {
 
     private void setWeatherToCity(Response<WeatherRequestOneDay> response, int position) {
         if (response.body() != null && response.body().getCod() == OPEN_WEATHER_COD_GOOD) {
-            City city = CityEmmiter.getCities().get(position);
             city.setTemperature((int) response.body().getMain().getTemp());
             city.setHumidity((int) response.body().getMain().getHumidity());
             city.setPressure((int) response.body().getMain().getPressure());
             city.setWind((int) response.body().getWind().getSpeed());
             city.setCountryCode(response.body().getSys().getCountry().toLowerCase());
             setWeatherIcon(response.body().getWeathers()[0].getId(),response.body().getSys().getSunrise() * 1000, response.body().getSys().getSunset() * 1000);
+            //записать в базу после обновления данных
+            DataBaseSource.update(city);
             listener.onShowCity(city);
         } else {
             String error = "";
             if (response.body() == null) {
-                error = "Response.body = null";
+                error = "This city is not in the database";
             } else if (response.body().getCod() != OPEN_WEATHER_COD_GOOD) {
                 error = "Cod=" + response.body().getCod();
             }
