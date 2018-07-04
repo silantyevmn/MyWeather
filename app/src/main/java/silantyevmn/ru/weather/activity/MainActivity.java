@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import silantyevmn.ru.weather.R;
+import silantyevmn.ru.weather.database.DataBase;
 import silantyevmn.ru.weather.fragment.DetailsFragment;
 import silantyevmn.ru.weather.fragment.MainFragment;
 import silantyevmn.ru.weather.utils.CityEmmiter;
@@ -33,14 +34,19 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //иницилизируем DataBase
+        DataBase dataBase=DataBase.initDataBase(this);
+
         //поддержка векторов для старых девайсов
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         if (savedInstanceState == null) {
             if (CityEmmiter.getCities() == null) {
                 // Расчитываем погоду:)
-                String[] arrCity = getResources().getStringArray(R.array.city_selection);
-                CityEmmiter.initNewCityParam(arrCity);
+                //String[] arrCity = getResources().getStringArray(R.array.city_selection);
+                //CityEmmiter.initNewCityParam(arrCity);
+                //Если первый запуск считываем города из БазыДанных
+                CityEmmiter.initNewCityToDataBase(dataBase.getCityDataBase().getAll());
             }
         }
         //
