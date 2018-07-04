@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import silantyevmn.ru.weather.DialogView;
 import silantyevmn.ru.weather.R;
+import silantyevmn.ru.weather.database.CityEntity;
+import silantyevmn.ru.weather.database.DataBase;
 import silantyevmn.ru.weather.utils.City;
 import silantyevmn.ru.weather.utils.CityEmmiter;
 
@@ -26,6 +28,7 @@ import silantyevmn.ru.weather.utils.CityEmmiter;
 public class MainFragment extends Fragment{
     private onClickCityListItem listener;
     private MyAdapter adapter;
+    private DataBase dataBase;
 
     // Создадим интерфейс, через который мы будем передавать номер строки списка, нажатой пользователем
     public interface onClickCityListItem {
@@ -36,6 +39,7 @@ public class MainFragment extends Fragment{
     @Override
     public void onAttach(Context context) {
         listener = (onClickCityListItem) context;
+        dataBase=DataBase.initDataBase(context);
         super.onAttach(context);
     }
 
@@ -145,6 +149,7 @@ public class MainFragment extends Fragment{
             @Override
             public void onClickPositive(String city) {
                 CityEmmiter.setAddNewCity(city,position);
+                dataBase.getCityDataBase().insert(new CityEntity(city));
                 adapter.notifyItemChanged(position);
             }
         }).showDialogView(getActivity(),name,"");
@@ -155,6 +160,7 @@ public class MainFragment extends Fragment{
     //удаление города из списка
     private void deleteCity(int position) {
         CityEmmiter.setDeleteCity(position);
+        dataBase.getCityDataBase().delete(new CityEntity(CityEmmiter.getCities().get(position).getName()));
         adapter.notifyItemRemoved(position);
     }
 
@@ -166,6 +172,7 @@ public class MainFragment extends Fragment{
             @Override
             public void onClickPositive(String city) {
                 CityEmmiter.setEditCity(city,position);
+                dataBase.getCityDataBase().update(new CityEntity(city));
                 adapter.notifyItemChanged(position);
             }
         }).showDialogView(getActivity(),name,"");
