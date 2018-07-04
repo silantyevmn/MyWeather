@@ -11,9 +11,9 @@ import android.content.SharedPreferences;
 public class CityPreference {
     private static CityPreference cityPreference;
     private final String SHARED_PREFERENCES_NAME = "setting";
-    public static final boolean HUMIDITY_DEFAULT = false;
-    public static final boolean PRESSURE_DEFAULT = false;
-    public static final boolean WIND_DEFAULT = false;
+    public static final boolean HUMIDITY_DEFAULT = true;
+    public static final boolean PRESSURE_DEFAULT = true;
+    public static final boolean WIND_DEFAULT = true;
     public static final String KEY_HUMIDITY = "humidity";
     public static final String KEY_PRESSURE = "pressure";
     public static final String KEY_WIND = "wind";
