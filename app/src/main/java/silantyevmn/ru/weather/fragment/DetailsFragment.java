@@ -23,7 +23,7 @@ import java.util.Locale;
 
 import silantyevmn.ru.weather.DetailsRecyclerAdapter;
 import silantyevmn.ru.weather.R;
-import silantyevmn.ru.weather.database.CityEntity;
+import silantyevmn.ru.weather.database.city.CityEntity;
 import silantyevmn.ru.weather.database.DataBaseSource;
 import silantyevmn.ru.weather.utils.CityPreference;
 import silantyevmn.ru.weather.utils.DataPreference;
