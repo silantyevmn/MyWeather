@@ -1,4 +1,4 @@
-package silantyevmn.ru.weather.database;
+package silantyevmn.ru.weather.database.city;
 
 import android.arch.persistence.room.*;
 import java.util.List;
