@@ -12,7 +12,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import silantyevmn.ru.weather.R;
-import silantyevmn.ru.weather.database.CityEntity;
+import silantyevmn.ru.weather.database.city.CityEntity;
 import silantyevmn.ru.weather.database.DataBaseSource;
 
 /**
