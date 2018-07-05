@@ -15,12 +15,16 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import silantyevmn.ru.weather.DialogView;
 import silantyevmn.ru.weather.R;
-import silantyevmn.ru.weather.database.CityEntity;
+import silantyevmn.ru.weather.database.city.CityEntity;
 import silantyevmn.ru.weather.database.DataBaseSource;
+import silantyevmn.ru.weather.database.history.HistoryEntity;
+import silantyevmn.ru.weather.utils.DataPreference;
 
 /**
  * Created by silan on 02.06.2018.
@@ -175,7 +179,7 @@ public class MainFragment extends Fragment{
     //редактирование города
     private void editCity(final int position) {
         final CityEntity currentCity=cityEntities.get(position);
-        String name = currentCity.getName();
+        final String name = currentCity.getName();
         //показываем окно с вводом города
         DialogView.getDialog(new DialogView.onClick() {
             @Override
