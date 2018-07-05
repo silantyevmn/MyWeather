@@ -13,4 +13,7 @@ public class DataPreference {
         SimpleDateFormat dateformat = new SimpleDateFormat(format);
         return dateformat.format(Calendar.getInstance().getTime());
     }
+    public static long getTime(){
+        return Calendar.getInstance().getTimeInMillis();
+    }
 }

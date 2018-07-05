@@ -5,15 +5,19 @@ import android.content.Context;
 
 import java.util.List;
 
+import silantyevmn.ru.weather.database.city.CityEntity;
+import silantyevmn.ru.weather.database.history.HistoryEntity;
+import silantyevmn.ru.weather.utils.DataPreference;
+
 /**
  * Created by silan on 04.07.2018.
  */
 
 public final class DataBaseSource {
     private static DataBaseSource dataBaseSource =null;
-    private final String DATABASE_NAME="cities";
+    private final String DATABASE_NAME="cities.db";
     private final String BASE_CITY="Moscow";
-    private static CityDataBase cityDataBase;
+    private static DataBase dataBase;
 
     public static DataBaseSource initDataBase(Context context){
         if(dataBaseSource ==null){
@@ -22,29 +26,35 @@ public final class DataBaseSource {
         return dataBaseSource;
     }
     private DataBaseSource(Context context){
-        cityDataBase = Room.databaseBuilder(context,CityDataBase.class,DATABASE_NAME).allowMainThreadQueries().build();
+        dataBase = Room.databaseBuilder(context,DataBase.class,DATABASE_NAME).allowMainThreadQueries().build();
         //добавляем начальный город
-        cityDataBase.dreamDioctionaryDAO().insert(new CityEntity(BASE_CITY));
+        dataBase.cityDao().insert(new CityEntity(BASE_CITY));
     }
 
     public static List<CityEntity> getListCityEntity(){
-        return cityDataBase.dreamDioctionaryDAO().getAll();
+        return dataBase.cityDao().getAll();
+    }
+    public static List<HistoryEntity> getHistory(){
+        return dataBase.historyDao().getAll();
     }
 
     public static void insert(CityEntity cityEntity){
-        cityDataBase.dreamDioctionaryDAO().insert(cityEntity);
+        dataBase.cityDao().insert(cityEntity);
+        dataBase.historyDao().insert(new HistoryEntity(cityEntity.getName(),"insert", DataPreference.getTime()));
     }
 
     public static void delete(CityEntity cityEntity){
-        cityDataBase.dreamDioctionaryDAO().delete(cityEntity);
+        dataBase.cityDao().delete(cityEntity);
+        dataBase.historyDao().insert(new HistoryEntity(cityEntity.getName(),"delete",DataPreference.getTime()));
     }
 
     public static void update(CityEntity cityEntity){
-        cityDataBase.dreamDioctionaryDAO().update(cityEntity);
+        dataBase.cityDao().update(cityEntity);
+        dataBase.historyDao().insert(new HistoryEntity(cityEntity.getName(),"update",DataPreference.getTime()));
     }
 
     public static CityEntity getCityByName(String name){
-        return cityDataBase.dreamDioctionaryDAO().getCityByName(name);
+        return dataBase.cityDao().getCityByName(name);
     }
 
 }

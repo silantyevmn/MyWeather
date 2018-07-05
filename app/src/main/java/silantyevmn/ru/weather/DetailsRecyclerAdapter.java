@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import silantyevmn.ru.weather.database.CityEntity;
+import silantyevmn.ru.weather.database.city.CityEntity;
 import silantyevmn.ru.weather.utils.CityPreference;
 import silantyevmn.ru.weather.utils.DataPreference;
 
