@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "701898140553",
+    "firebase_url": "https://myweather-ccc2d.firebaseio.com",
+    "project_id": "myweather-ccc2d",
+    "storage_bucket": "myweather-ccc2d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:701898140553:android:cc81366ddeb146a1",
+        "android_client_info": {
+          "package_name": "silantyevmn.ru.weather"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "701898140553-csm00m80ed6urn5lkqs8qcdfce0gouuh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "silantyevmn.ru.weather",
+            "certificate_hash": "7243a4211eaf378703b9e7be4602dbda0ab69da4"
+          }
+        },
+        {
+          "client_id": "701898140553-lkgh7hc7e73im0cipo07ndbvr441tc7u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1GKmMD4lAMx1QxXUQWrX18xtiSjd_CEQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "701898140553-lkgh7hc7e73im0cipo07ndbvr441tc7u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
