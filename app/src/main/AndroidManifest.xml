@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
 
     <application
         android:name=".Start"
@@ -25,12 +28,12 @@
         <activity android:name=".activity.DetailActivity"
         android:parentActivityName=".activity.MainActivity"/>
         <activity android:name=".activity.SettingActivity" />
-        <service android:name=".utils.MyFirebaseInstance">
+        <service android:name=".utils.firebase.MyFirebaseInstance">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".utils.MyFirebaseMessageService">
+        <service android:name=".utils.firebase.MyFirebaseMessageService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
