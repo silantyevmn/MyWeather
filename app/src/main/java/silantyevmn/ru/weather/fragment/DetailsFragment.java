@@ -23,17 +23,18 @@ import java.util.Locale;
 
 import silantyevmn.ru.weather.DetailsRecyclerAdapter;
 import silantyevmn.ru.weather.R;
-import silantyevmn.ru.weather.database.city.CityEntity;
 import silantyevmn.ru.weather.database.DataBaseSource;
+import silantyevmn.ru.weather.database.city.CityEntity;
 import silantyevmn.ru.weather.utils.CityPreference;
 import silantyevmn.ru.weather.utils.DataPreference;
+import silantyevmn.ru.weather.utils.myLocation.MyLocation;
 import silantyevmn.ru.weather.utils.json.retrofit.OpenWeatherRetrofit;
 
 /**
  * Created by silan on 27.05.2018.
  */
 
-public class DetailsFragment extends Fragment implements OpenWeatherRetrofit.onShowWeather {
+public class DetailsFragment extends Fragment implements OpenWeatherRetrofit.onShowWeather,MyLocation.onLocationChanged {
     private final String FONT = "fonts/weathericons.ttf";
     private LinearLayout layoutProgress;
     private View layoutContainer;
@@ -49,6 +50,7 @@ public class DetailsFragment extends Fragment implements OpenWeatherRetrofit.onS
     private ProgressBar progressBar;
     private ImageView imageAppBar;
     private ImageView imageFlag; //выведем флаг
+    private OpenWeatherRetrofit openWeatherRetrofit;
 
     //передаем аргументы(позицию) во фрагмент
     public static DetailsFragment newInstance(int position) {
@@ -115,22 +117,27 @@ public class DetailsFragment extends Fragment implements OpenWeatherRetrofit.onS
     public void showFragment(Bundle bundle) {
         int position = bundle.getInt(CityPreference.KEY_POSITION, CityPreference.POSITION_DEFAULT);
         //запишем позицию
-        CityPreference.getPreference(getContext()).setPosition(position);
+        CityPreference.getInstance().setPosition(position);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
         //считываем с базы
-        CityEntity cityEntity= DataBaseSource.getListCityEntity().get(position);
+        CityEntity cityEntity = DataBaseSource.getInstance().getListCityEntity().get(position);
         //city = CityEmmiter.getCities().get(position);
         //загружаем данные погоды из интернета
         //Retrofit
-        OpenWeatherRetrofit openWeatherRetrofit = new OpenWeatherRetrofit(this,cityEntity);
-        openWeatherRetrofit.requestRetrofitOneDay(cityEntity.getName().toLowerCase(Locale.US), position);
+        openWeatherRetrofit = new OpenWeatherRetrofit(this, cityEntity);
+        if(cityEntity.isLocation()) {
+            MyLocation.getInstance().initListener(this);
+            MyLocation.getInstance().requestLocation(getContext(),cityEntity);
+        } else {
+            openWeatherRetrofit.requestRetrofitOneDay(cityEntity.getName().toLowerCase(Locale.US));
+        }
         // пробуем через AsyncTask
         //requestMaker.make(city.getName().toLowerCase(Locale.US));
         //updateWeatherData(city.getName().toLowerCase(Locale.US));
 
-        tvCity.setText(cityEntity.getName());
+        //tvCity.setText(cityEntity.getName());
         tvDate.setText(DataPreference.getCurrentDate("EEEE, dd MMM yyyy, HH:mm"));
 
         //устанавливаем адаптер
@@ -139,7 +146,7 @@ public class DetailsFragment extends Fragment implements OpenWeatherRetrofit.onS
     }
 
     private List<CityEntity> initList(CityEntity cityEntity) {
-        List<CityEntity> cityEntities=new ArrayList<>();
+        List<CityEntity> cityEntities = new ArrayList<>();
         cityEntities.add(cityEntity);
         return cityEntities;
     }
@@ -210,6 +217,7 @@ public class DetailsFragment extends Fragment implements OpenWeatherRetrofit.onS
         handler.post(new Runnable() {
             @Override
             public void run() {
+                tvCity.setText(city.getName());
                 tvTemperature.setText(city.getTemperature(tvTemperature.getHint().toString()));
                 //todo picasso flag show
                 //http://flagpedia.net/data/flags/normal/ru.png
@@ -258,5 +266,15 @@ public class DetailsFragment extends Fragment implements OpenWeatherRetrofit.onS
             }
         });
 
+    }
+
+    @Override
+    public void onLocationChanged(final CityEntity cityEntity) {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                openWeatherRetrofit.requestRetrofitLocation(cityEntity.getLatitude(), cityEntity.getLongitude());
+            }
+        });
     }
 }
