@@ -1,10 +1,14 @@
 package silantyevmn.ru.weather.activity;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityCompat.OnRequestPermissionsResultCallback;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,13 +21,16 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import silantyevmn.ru.weather.R;
+import silantyevmn.ru.weather.Start;
+import silantyevmn.ru.weather.database.DataBaseSource;
 import silantyevmn.ru.weather.fragment.DetailsFragment;
 import silantyevmn.ru.weather.fragment.MainFragment;
 import silantyevmn.ru.weather.utils.CityPreference;
 
 import static android.content.DialogInterface.OnClickListener;
 
-public class MainActivity extends AppCompatActivity implements MainFragment.onClickCityListItem, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements MainFragment.onClickCityListItem, NavigationView.OnNavigationItemSelectedListener,OnRequestPermissionsResultCallback {
+    private static final int PERMISSION_REQUEST_CODE = 10;
     private DrawerLayout drawer;
     private CityPreference preference;
 
@@ -34,7 +41,20 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onCl
         //поддержка векторов для старых девайсов
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         //
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Проверим на пермиссии, и если их нет, запросим у пользователя
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+        {
+            // Запросим координаты
+            //requestLocation();
+        } else {
+            // Пермиссии нет, будем запрашивать у пользователя
+            requestLocationPermissions();
+        }
+
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -46,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onCl
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         //
-        preference = CityPreference.getPreference(null);
+        preference = CityPreference.getInstance();
         int position = preference.getPosition();
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.fragment_details);
         //проверяем есть в активити фрагмент деталей погоды?
@@ -137,4 +157,17 @@ public class MainActivity extends AppCompatActivity implements MainFragment.onCl
         return true;
     }
 
+    // Запрос пермиссии для геолокации
+    private void requestLocationPermissions() {
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.CALL_PHONE)) {
+            // Запросим эти две пермиссии у пользователя
+            ActivityCompat.requestPermissions(this,
+                    new String[]{
+                            Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION
+                    },
+                    PERMISSION_REQUEST_CODE);
+        }
+    }
 }
