@@ -5,6 +5,7 @@ import android.content.Context;
 
 import java.util.List;
 
+import silantyevmn.ru.weather.R;
 import silantyevmn.ru.weather.database.city.CityEntity;
 import silantyevmn.ru.weather.database.history.HistoryEntity;
 import silantyevmn.ru.weather.utils.DataPreference;
@@ -14,47 +15,56 @@ import silantyevmn.ru.weather.utils.DataPreference;
  */
 
 public final class DataBaseSource {
-    private static DataBaseSource dataBaseSource =null;
-    private final String DATABASE_NAME="cities.db";
-    private final String BASE_CITY="Moscow";
-    private static DataBase dataBase;
+    private final String DATABASE_NAME = "cities.db";
+    private DataBase dataBase;
+    private static DataBaseSource dataBaseSource;
 
-    public static DataBaseSource initDataBase(Context context){
-        if(dataBaseSource ==null){
-            dataBaseSource =new DataBaseSource(context);
+    private DataBaseSource(Context context) {
+        dataBase = Room.databaseBuilder(context, DataBase.class, DATABASE_NAME).allowMainThreadQueries().build();
+        //если список пустой
+        if (getListCityEntity().size() == 0) {
+            //добавляем в список текущее местоположение
+            CityEntity cityEntity = new CityEntity(context.getString(R.string.main_recucler_text_current_location));
+            //устанавливаем location истина
+            cityEntity.setLocation(true);
+            dataBase.cityDao().insert(cityEntity);
         }
-        return dataBaseSource;
-    }
-    private DataBaseSource(Context context){
-        dataBase = Room.databaseBuilder(context,DataBase.class,DATABASE_NAME).allowMainThreadQueries().build();
-        //добавляем начальный город
-        dataBase.cityDao().insert(new CityEntity(BASE_CITY));
     }
 
-    public static List<CityEntity> getListCityEntity(){
+    public List<CityEntity> getListCityEntity() {
         return dataBase.cityDao().getAll();
     }
-    public static List<HistoryEntity> getHistory(){
+
+    public List<HistoryEntity> getHistory() {
         return dataBase.historyDao().getAll();
     }
 
-    public static void insert(CityEntity cityEntity){
+    public void insert(CityEntity cityEntity) {
         dataBase.cityDao().insert(cityEntity);
-        dataBase.historyDao().insert(new HistoryEntity(cityEntity.getName(),"insert", DataPreference.getTime()));
+        dataBase.historyDao().insert(new HistoryEntity(cityEntity.getName(), "insert", DataPreference.getTime()));
     }
 
-    public static void delete(CityEntity cityEntity){
+    public void delete(CityEntity cityEntity) {
         dataBase.cityDao().delete(cityEntity);
-        dataBase.historyDao().insert(new HistoryEntity(cityEntity.getName(),"delete",DataPreference.getTime()));
+        dataBase.historyDao().insert(new HistoryEntity(cityEntity.getName(), "delete", DataPreference.getTime()));
     }
 
-    public static void update(CityEntity cityEntity){
+    public void update(CityEntity cityEntity) {
         dataBase.cityDao().update(cityEntity);
-        dataBase.historyDao().insert(new HistoryEntity(cityEntity.getName(),"update",DataPreference.getTime()));
+        dataBase.historyDao().insert(new HistoryEntity(cityEntity.getName(), "update", DataPreference.getTime()));
     }
 
-    public static CityEntity getCityByName(String name){
+    public CityEntity getCityByName(String name) {
         return dataBase.cityDao().getCityByName(name);
     }
 
+    public static void init(Context context) {
+        if (dataBaseSource == null) {
+            dataBaseSource = new DataBaseSource(context);
+        }
+    }
+
+    public static DataBaseSource getInstance() {
+        return dataBaseSource;
+    }
 }
