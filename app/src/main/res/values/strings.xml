@@ -51,4 +51,6 @@
 
     <string name="text_info_progress_internet">Downloading from the weather server is in progress...</string>
     <string name="dialog_button_ok">Ok</string>
+    <string name="main_recucler_text_current_location">current location</string>
+    <string name="text_dialog_delete_and_update_error">This menu item can not be changed!</string>
 </resources>

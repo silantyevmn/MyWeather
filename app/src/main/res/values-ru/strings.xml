@@ -40,4 +40,6 @@
     <string name="error_json_null">Ошибка! json null</string>
     <string name="text_info_progress_internet">Идет загрузка с погодного сервера...</string>
     <string name="dialog_button_ok">Ok</string>
+    <string name="main_recucler_text_current_location">текущее местоположение</string>
+    <string name="text_dialog_delete_and_update_error">Данный пункт меню изменить нельзя!</string>
 </resources>
