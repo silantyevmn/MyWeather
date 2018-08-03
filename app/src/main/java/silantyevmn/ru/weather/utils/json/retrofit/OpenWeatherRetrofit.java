@@ -12,6 +12,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import silantyevmn.ru.weather.R;
+import silantyevmn.ru.weather.Start;
 import silantyevmn.ru.weather.database.city.CityEntity;
 import silantyevmn.ru.weather.database.DataBaseSource;
 
@@ -28,11 +29,13 @@ public class OpenWeatherRetrofit {
     private final int OPEN_WEATHER_COD_GOOD = 200;
     private onShowWeather listener;
     private CityEntity city;
+    private DataBaseSource dataBaseSource;
 
     public OpenWeatherRetrofit(onShowWeather listener,CityEntity city) {
         this.listener = listener;
         this.city=city;
         initRetorfit();
+        dataBaseSource= DataBaseSource.getInstance();
     }
 
     public interface onShowWeather {
@@ -63,13 +66,13 @@ public class OpenWeatherRetrofit {
         return  httpClient.build();
     }
 
-    public void requestRetrofitOneDay(String city, final int position) {
+    public void requestRetrofitOneDay(String city) {
         iOpenWeather.loadWeather(city, OPEN_WEATHER_KEY_API, UNITS)
                 .enqueue(new Callback<WeatherRequestOneDay>() {
 
                     @Override
                     public void onResponse(Call<WeatherRequestOneDay> call, Response<WeatherRequestOneDay> response) {
-                        setWeatherToCity(response, position);
+                        setWeatherToCity(response);
                     }
 
                     @Override
@@ -79,8 +82,25 @@ public class OpenWeatherRetrofit {
                 });
     }
 
-    private void setWeatherToCity(Response<WeatherRequestOneDay> response, int position) {
+    public void requestRetrofitLocation(double lat,double lon) {
+        iOpenWeather.loadWeatherLocation(lat,lon, OPEN_WEATHER_KEY_API, UNITS)
+                .enqueue(new Callback<WeatherRequestOneDay>() {
+
+                    @Override
+                    public void onResponse(Call<WeatherRequestOneDay> call, Response<WeatherRequestOneDay> response) {
+                        setWeatherToCity(response);
+                    }
+
+                    @Override
+                    public void onFailure(Call<WeatherRequestOneDay> call, Throwable t) {
+                        listener.onShowError(t);
+                    }
+                });
+    }
+
+    private void setWeatherToCity(Response<WeatherRequestOneDay> response) {
         if (response.body() != null && response.body().getCod() == OPEN_WEATHER_COD_GOOD) {
+            city.setName(response.body().getName());
             city.setTemperature((int) response.body().getMain().getTemp());
             city.setHumidity((int) response.body().getMain().getHumidity());
             city.setPressure((int) response.body().getMain().getPressure());
@@ -88,7 +108,7 @@ public class OpenWeatherRetrofit {
             city.setCountryCode(response.body().getSys().getCountry().toLowerCase());
             setWeatherIcon(response.body().getWeathers()[0].getId(),response.body().getSys().getSunrise() * 1000, response.body().getSys().getSunset() * 1000);
             //записать в базу после обновления данных
-            DataBaseSource.update(city);
+            dataBaseSource.update(city);
             listener.onShowCity(city);
         } else {
             String error = "";
