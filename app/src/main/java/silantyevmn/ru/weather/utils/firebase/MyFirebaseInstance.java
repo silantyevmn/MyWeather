@@ -1,4 +1,4 @@
-package silantyevmn.ru.weather.utils;
+package silantyevmn.ru.weather.utils.firebase;
 
 import android.util.Log;
 

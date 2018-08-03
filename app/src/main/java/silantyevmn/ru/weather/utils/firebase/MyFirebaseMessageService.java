@@ -1,4 +1,4 @@
-package silantyevmn.ru.weather.utils;
+package silantyevmn.ru.weather.utils.firebase;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
