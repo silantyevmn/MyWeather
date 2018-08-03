@@ -5,12 +5,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import silantyevmn.ru.weather.Start;
+
 /**
  * Created by silan on 23.06.2018.
  */
 
 public class CityPreference {
-    private static CityPreference cityPreference;
     private final String SHARED_PREFERENCES_NAME = "setting";
     public static final boolean HUMIDITY_DEFAULT = true;
     public static final boolean PRESSURE_DEFAULT = true;
@@ -23,17 +24,11 @@ public class CityPreference {
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences sharedSettings;
+    private static CityPreference cityPreference;
 
     private CityPreference(Context context) {
         sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES_NAME, Activity.MODE_PRIVATE);
         sharedSettings= PreferenceManager.getDefaultSharedPreferences(context);
-    }
-
-    public static CityPreference getPreference(Context context) {
-        if (cityPreference == null) {
-            cityPreference = new CityPreference(context);
-        }
-        return cityPreference;
     }
 
     public int getPosition() {
@@ -55,4 +50,15 @@ public class CityPreference {
     public boolean getIsWind() {
         return sharedSettings.getBoolean(KEY_WIND, WIND_DEFAULT);
     }
+
+    public static CityPreference getInstance() {
+        return cityPreference;
+    }
+
+    public static void init(Context context) {
+        if(cityPreference==null){
+            cityPreference=new CityPreference(context);
+        }
+    }
+
 }
