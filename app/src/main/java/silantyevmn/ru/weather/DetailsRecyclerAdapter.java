@@ -28,7 +28,7 @@ public class DetailsRecyclerAdapter extends RecyclerView.Adapter<DetailsRecycler
     public DetailsRecyclerAdapter(List<CityEntity> cities, int rLayout) {
         this.cities = cities;
         this.rLayout = rLayout;
-        CityPreference pref = CityPreference.getPreference(null);
+        CityPreference pref = CityPreference.getInstance();
         isHumidity = pref.getIsHumidity();
         isPressure = pref.getIsPressure();
         isWind = pref.getIsWind();
