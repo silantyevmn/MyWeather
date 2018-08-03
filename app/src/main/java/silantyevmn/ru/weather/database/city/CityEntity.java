@@ -34,6 +34,35 @@ public class CityEntity {
     @ColumnInfo
     private String icon; //01d,02n...
 
+    private double latitude;
+    private double longitude;
+
+    private boolean location;
+
+    public boolean isLocation() {
+        return location;
+    }
+
+    public void setLocation(boolean location) {
+        this.location = location;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
     public void setTemperature(int temperature) {
         this.temperature = temperature;
     }
